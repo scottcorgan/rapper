@@ -1,5 +1,5 @@
 {
-  "name": "narrate",
+  "name": "narrator",
   "version": "0.0.1",
   "description": "Construct api wrappers around RESTful endpoints",
   "main": "index.js",
