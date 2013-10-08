@@ -2,25 +2,15 @@ var expect = require('chai').expect;
 var Narrator = require('../lib/narrator');
 var endpoint = require('../lib/endpoint');
 var http = require('../lib/http');
-var Mocksy = require('mocksy');
-var PORT = 4756;
-var STUB_HOST = 'http://localhost:' + PORT;
-var server = new Mocksy({port: PORT});
-var HEADERS = {
-  authorization: 'token'
-};
-var narratorOptions = {
-  host: STUB_HOST,
-  headers: HEADERS
-};
+var stubServer = require('./stubs/server');
 
 describe('http', function () {
   beforeEach(function (done) {
-    server.start(done);
+    stubServer.server.start(done);
   });
   
   afterEach(function (done) {
-    server.stop(done);
+    stubServer.server.stop(done);
   });
   
   it('sets default headers to empty', function () {
@@ -28,8 +18,8 @@ describe('http', function () {
   });
   
   it('sets the headers manually', function () {
-    http.setHeaders(HEADERS);
-    expect(http.headers).to.eql(HEADERS);
+    http.setHeaders(stubServer.HEADERS);
+    expect(http.headers).to.eql(stubServer.HEADERS);
   });
   
   it('parses JSON or not', function () {
@@ -40,35 +30,35 @@ describe('http', function () {
   });
   
   it('makes an http request with the given method', function (done) {
-    http._http(STUB_HOST, 'GET', {}, function (err, response, body) {
+    http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect(body.method).to.equal('GET');
       done();
     });
   });
   
   it('makes an http request to the given host', function (done) {
-    http._http(STUB_HOST, 'GET', {}, function (err, response, body) {
-      expect('http://' + body.headers.host).to.equal(STUB_HOST);
+    http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
+      expect('http://' + body.headers.host).to.equal(stubServer.STUB_HOST);
       done();
     });
   });
   
   it('makes an http request with custom headers', function (done) {
-    http.setHeaders(HEADERS);
-    http._request(STUB_HOST, 'GET', {}, function (err, response, body) {
+    http.setHeaders(stubServer.HEADERS);
+    http._request(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect(body.headers.authorization).to.equal('token');
       done();
     });
   });
   
   it('allows options to be otional for _http', function (done) {
-    http._http(STUB_HOST, 'GET', function () {
+    http._http(stubServer.STUB_HOST, 'GET', function () {
       done();
     });
   });
   
   it('allows options to be otional for _request', function (done) {
-    http._request(STUB_HOST, 'GET', function () {
+    http._request(stubServer.STUB_HOST, 'GET', function () {
       done();
     });
   });

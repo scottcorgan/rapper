@@ -1,16 +1,10 @@
 var expect = require('chai').expect;
 var Narrator = require('../lib/narrator');
 var endpoint = require('../lib/endpoint');
-var Mocksy = require('mocksy');
-var PORT = 4756;
-var STUB_HOST = 'http://localhost:' + PORT;
-var server = new Mocksy({port: PORT});
-var HEADERS = {
-  authorization: 'token'
-};
+var stubServer = require('./stubs/server');
 var narratorOptions = {
-  host: STUB_HOST,
-  headers: HEADERS
+  host: stubServer.STUB_HOST,
+  headers: stubServer.HEADERS
 };
 
 describe('Narrator', function () {
@@ -22,11 +16,11 @@ describe('Narrator', function () {
   
   describe('#Narrator()', function () {
     it('instantiates Narrator with a host', function () {
-      expect(api.host).to.equal(STUB_HOST);
+      expect(api.host).to.equal(stubServer.STUB_HOST);
     });
     
     it('instantiates with optional headers', function () {
-      expect(api.headers).to.equal(HEADERS);
+      expect(api.headers).to.equal(stubServer.HEADERS);
     });
   });
   
@@ -40,11 +34,11 @@ describe('Narrator', function () {
       users = api.endpoint('users', {
         customMethod: customMethod
       });
-      server.start(done);
+      stubServer.server.start(done);
     });
     
     afterEach(function (done) {
-      server.stop(done);
+      stubServer.server.stop(done);
     });
     
     it('creates a new endpoint with given path', function () {
