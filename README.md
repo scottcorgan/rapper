@@ -38,6 +38,12 @@ module.exports = new SomeEndPoint(options);
 ## Endpoint Instance Methods
 
 ### get([callback])
+
+* ` callback ` - callback is passed the arguments
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Resposne from request
+
 ### getById(id [, callback])
 ### create(options [, callback])
 ### update(data [, callback])
