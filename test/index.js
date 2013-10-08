@@ -91,6 +91,52 @@ describe('Narrator', function () {
           key: 'value'
         });
       });
-    })
+    });
+    
+    describe('RESTful methods', function() {
+      var endpoint;
+      
+      beforeEach(function () {
+        endpoint = new Endpoint();
+      });
+      
+      it('performs a GET request', function (done) {
+        endpoint._get({}, function (err, response, body) {
+          expect(body.method).to.equal('GET');
+          done();
+        });
+      });
+      
+      it('performs a GET request by id', function (done) {
+        endpoint._getById('id', {}, function (err, response, body) {
+          expect(body.method).to.equal('GET');
+          expect(body.url).to.equal('/endpoint/id');
+          done();
+        });
+      });
+      
+      it('performs a POST request', function (done) {
+        endpoint._post({}, function (err, response, body) {
+          expect(body.method).to.equal('POST');
+          done();
+        });
+      });
+      
+      it('performs a PUT request by id', function (done) {
+        endpoint._put('id', {}, function (err, response, body) {
+          expect(body.method).to.equal('PUT');
+          expect(body.url).to.equal('/endpoint/id');
+          done();
+        });
+      });
+      
+      it('performs a DELETE request by id', function (done) {
+        endpoint._del('id', {}, function (err, response, body) {
+          expect(body.method).to.equal('DELETE');
+          expect(body.url).to.equal('/endpoint/id');
+          done();
+        });
+      });
+    });
   });
 });

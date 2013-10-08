@@ -60,19 +60,19 @@ Narrator.prototype._http = function (path, method, options, callback) {
 // };
 
 Narrator.prototype._get = function (options, callback) {
-  this._authenticatedHttp(this.path, 'GET', options, callback);
+  this._http(this.path, 'GET', options, callback);
 },
 Narrator.prototype._getById = function (id, options, callback) {
-  this._authenticatedHttp(this.path + '/' + id, 'GET', options, callback);
+  this._http(this.path + '/' + id, 'GET', options, callback);
 },
 Narrator.prototype._post = function (options, callback) {
-  this._authenticatedHttp(this.path, 'POST', options, callback);
+  this._http(this.path, 'POST', options, callback);
 },
 Narrator.prototype._put = function (id, options, callback) {
-  this._authenticatedHttp(this.path + '/' + id, 'PUT', options, callback);
+  this._http(this.path + '/' + id, 'PUT', options, callback);
 },
 Narrator.prototype._del = function (id, options, callback) {
-  this._authenticatedHttp(this.path + '/' + id, 'DELETE', options, callback);
+  this._http(this.path + '/' + id, 'DELETE', options, callback);
 },
 
 Narrator.prototype.getAll = function (callback) {
