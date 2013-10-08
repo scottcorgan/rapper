@@ -4,7 +4,7 @@
   "description": "Construct api wrappers around RESTful endpoints",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha --recursive ./test"
+    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
   "dependencies": {
     "request": "~2.27.0",
     "lodash.defaults": "~2.2.1",
-    "lodash.assign": "~2.2.1"
+    "lodash.assign": "~2.2.1",
+    "url-join": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
