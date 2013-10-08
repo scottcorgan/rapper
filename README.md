@@ -1,6 +1,6 @@
 # Narrator
 
-Construct api wrappers around RESTful endpoints.
+Build api wrappers around RESTful endpoints.
 
 ## Install
 
@@ -64,7 +64,7 @@ Returns the url for the current endpoint
 
 Performs a ` GET ` request to the api for the given path name
 
-* ` callback ` - gets called with the arguments
+* ` callback ` - gets called with the arguments:
   * **err** - error object if one exists
   * **response** - the response from the server
 
@@ -73,7 +73,7 @@ Performs a ` GET ` request to the api for the given path name
 Performs a ` POST ` request to the api for the given path name
 
 * ` payload ` - the key-value object to send with the request
-* ` callback ` - gets called with the arguments
+* ` callback ` - gets called with the arguments:
   * **err** - error object if one exists
   * **response** - the response from the server
 
@@ -89,7 +89,7 @@ Example:
 
 ```javascript
 var users = api.endpoint('users');
-var user = users.one(123);
+var user = users.one(123); // Generats /user/123
 
 // user.url();
 // user.get();
@@ -104,11 +104,29 @@ Returns the url for the current endpoint
 
 ### get(callback)
 
+* ` callback ` - gets called with the arguments:
+  * **err** - error object if one exists
+  * **response** - the response from the server
+
 ### update(payload, callback)
+
+* ` payload ` - the key-value object to send with the request
+* ` callback ` - gets called with the arguments:
+  * **err** - error object if one exists
+  * **response** - the response from the server
 
 ### remove(callback)
 
+* ` callback ` - gets called with the arguments:
+  * **err** - error object if one exists
+  * **response** - the response from the server
+
 ### endpoint(name, customMethods)
+
+This creates a new endpoint prefixed by the endpoint path that called this method. (i.e ` /users/123/comments `). VERY helpful for creating nested endpoints.
+
+* ` name ` - the name of the endpoing, which is used to build the path (i.e. ` users ` creates the path ` /users `)
+* ` customMethods ` - an object contain custom methods to add to the endpoint object
 
 
 ## Run Tests
