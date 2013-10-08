@@ -10,9 +10,7 @@ npm install narrator --save
 
 ## Usage
 
-### Endpoints
-
-```
+```javascript
 var Narrator = require('narrator');
 var narrator = new Narrator({
   host: 'http://someendpoint.com'
@@ -33,13 +31,13 @@ var options = {};
 module.exports = new SomeEndPoint(options);
 ```
 
-#### Endpoint Functionality
+## Endpoint Functionality
 
-##### get([callback])
-##### getById(id [, callback])
-##### create(options [, callback])
-##### update(data [, callback])
-##### remove(id, [, callback])
+### get([callback])
+### getById(id [, callback])
+### create(options [, callback])
+### update(data [, callback])
+### remove(id, [, callback])
 
 
 ## Run Tests
