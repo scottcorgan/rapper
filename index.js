@@ -61,31 +61,31 @@ Narrator.prototype._http = function (path, method, options, callback) {
 
 Narrator.prototype._get = function (options, callback) {
   this._http(this.path, 'GET', options, callback);
-},
+};
 Narrator.prototype._getById = function (id, options, callback) {
   this._http(this.path + '/' + id, 'GET', options, callback);
-},
+};
 Narrator.prototype._post = function (options, callback) {
   this._http(this.path, 'POST', options, callback);
-},
+};
 Narrator.prototype._put = function (id, options, callback) {
   this._http(this.path + '/' + id, 'PUT', options, callback);
-},
+};
 Narrator.prototype._del = function (id, options, callback) {
   this._http(this.path + '/' + id, 'DELETE', options, callback);
-},
+};
 
 Narrator.prototype.getAll = function (callback) {
   this._get({}, function (err, response, body) {
     callback(err, body);
   });
-},
+};
 
 Narrator.prototype.getById = function (id, callback) {
   this._getById(id, {}, function (err, response, body) {
     callback(err, body);
   });
-},
+};
 
 Narrator.prototype.create = function (payload, callback) {
   this._post({
@@ -93,14 +93,18 @@ Narrator.prototype.create = function (payload, callback) {
   }, function (err, response, body) {
     callback(err, body);
   });
-},
+};
 
 Narrator.prototype.update = function (id, payload, callback) {
   this._put(id, {form: payload}, function (err, response, body) {
     callback(err, body);
   });
-},
+};
 
-Narrator.prototype.remove = function (id, callback) {}
+Narrator.prototype.remove = function (id, callback) {
+  this._del(id, {}, function (err, response, body) {
+    callback(err, body);
+  });
+};
 
 module.exports = Narrator;

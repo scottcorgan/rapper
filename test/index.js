@@ -184,6 +184,14 @@ describe('Narrator', function () {
           done();
         });
       });
+      
+      it('sends a DELETE request with an id', function (done) {
+        endpoint.remove('id', function (err, response) {
+          expect(response.method).to.equal('DELETE');
+          expect(response.url).to.equal('/endpoint/id');
+          done();
+        });
+      });
     });
   });
 });
