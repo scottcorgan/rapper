@@ -59,9 +59,26 @@ var users = api.endpoint('users');
 
 #### list(callback)
 
+Performs a ` GET ` request to the api for the given path name
+
+* ` callback ` - gets called with the arguments
+  * **err** - error object if one exists
+  * **response** - the response from the server
+
 #### create(data, callback)
 
+Performs a ` POST ` request to the api for the given path name
+
+* ` data ` - the key-value object to send with the request
+* ` callback ` - gets called with the arguments
+  * **err** - error object if one exists
+  * **response** - the response from the server
+
 #### one(id)
+
+Creates an new single item endpoint with the given id from the mult-item endpoint path. This method returns a new object with the single item methods (see below)
+
+* ` id ` - the id of the single item to create and endpoint form
 
 
 ## Run Tests
