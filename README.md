@@ -56,6 +56,10 @@ This method is the same as ` _http `, except that it sends the headers declared 
   * **response** - contains all types of response information
   * **body** - Response from request (stringified)
 
+### setHeaders(headers)
+
+* ` headers ` - an object containing key/value pairs of headers to send on each request
+
 ## Endpoint Instance Methods
 
 ### get([callback])
