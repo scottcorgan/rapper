@@ -55,14 +55,5 @@ describe('Narrator', function () {
         done();
       });
     });
-    
-    it('creats a new resource from the endpoint', function () {
-      users.create({
-        name: 'frank'
-      }, function (err, response) {
-        expect(err).to.equal(null);
-        done();
-      });
-    });
   });
 });

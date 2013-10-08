@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var Narrator = require('../lib/narrator');
 var endpoint = require('../lib/endpoint');
 var _http = require('../lib/http');
 var entity = require('../lib/entity');
@@ -59,4 +58,4 @@ describe('.endpoint', function() {
       expect(user.id).to.equal('123');
     });
   });
-})
+});

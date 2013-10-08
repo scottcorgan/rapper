@@ -2,7 +2,6 @@ var expect = require('chai').expect;
 var entity = require('../lib/entity');
 var stubServer = require('./stubs/server');
 var extend = require('lodash.assign');
-var Narrator = require('../lib/narrator');
 
 describe('.entity', function () {
   var user;
@@ -11,7 +10,8 @@ describe('.entity', function () {
     user = extend({}, entity, {
       path: '/users',
       id: 123,
-      host: stubServer.STUB_HOST
+      host: stubServer.STUB_HOST,
+      headers: stubServer.HEADERS
     });
     
     stubServer.server.start(done);
@@ -51,10 +51,26 @@ describe('.entity', function () {
   });
   
   describe('#endpoint()', function () {
+    var friends;
+    
+    beforeEach(function () {
+      friends = user.endpoint('friends');
+    });
+    
     it('creates a nested endpoint', function () {
-      // var friends = user.endpoint('friends');
-      
-      // expect(friends.url()).to.equal(user.url() + '/friends');
+      expect(friends.url()).to.equal(user.url() + '/friends');
+      expect(friends.headers).to.eql(stubServer.HEADERS);
+    });
+    
+    it('creates a singular resource endpoing', function () {
+      var friend = friends.one(456);
+      expect(friend.url()).to.equal(user.url() + '/friends/456');
+    });
+    
+    it('handles infinitely nested routes', function () {
+      var friend = friends.one(456);
+      var related = friend.endpoint('related');
+      expect(related.url()).to.equal(friend.url() + '/related');
     });
   });
 });
