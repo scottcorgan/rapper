@@ -23,6 +23,18 @@ describe('Narrator', function () {
     expect(Narrator.create().path).to.equal('/');
   });
   
+  it('sets the default headers for each request', function () {
+    var narrator = new Narrator({
+      headers: {
+        authorization: 'something'
+      }
+    });
+    
+    expect(narrator.headers).to.eql({
+      authorization: 'something'
+    });
+  });
+  
   describe('#endpoint()', function() {
     var narrator;
     var Endpoint;
@@ -85,6 +97,27 @@ describe('Narrator', function () {
           expect(body.headers.authorization).to.be.ok;
           done();
         })
+      });
+    });
+    
+    describe('#_request()', function () {
+      var narr;
+      
+      beforeEach(function () {
+        narr = new Narrator({
+          host: STUB_HOST,
+          headers: {
+            authorization: 'auth'
+          }
+        });
+      });
+      
+      it('makes an http request with specified headers', function (done) {
+        narr._request('/endpoint', 'GET', {}, function (err, response, data) {
+          expect(data.method).to.equal('GET');
+          expect(data.headers.authorization).to.equal('auth');
+          done();
+        });
       });
     });
     

@@ -5,6 +5,8 @@ var urljoin = require('url-join');
 
 var Narrator = function (options) {
   this.path = '/';
+  this.headers = {};
+  
   extend(this, options);
 };
 
@@ -45,6 +47,16 @@ Narrator.prototype._http = function (path, method, options, callback) {
   });
 };
 
+Narrator.prototype._request = function (path, method, options, callback) {
+  var httpOptions = extend({
+    headers: this.headers
+  }, options);
+  
+  this._http(path, method, httpOptions, function (err, response, body) {
+    callback(err, response, body);
+  });
+};
+
 // Narrator.prototype._authenticatedHttp: function (path, method, options, callback, ignoreAuthentication) {
 //   var self = this;
 //   if (!Api.user) {
@@ -62,19 +74,19 @@ Narrator.prototype._http = function (path, method, options, callback) {
 // };
 
 Narrator.prototype._get = function (options, callback) {
-  this._http(this.path, 'GET', options, callback);
+  this._request(this.path, 'GET', options, callback);
 };
 Narrator.prototype._getById = function (id, options, callback) {
-  this._http(this.path + '/' + id, 'GET', options, callback);
+  this._request(this.path + '/' + id, 'GET', options, callback);
 };
 Narrator.prototype._post = function (options, callback) {
-  this._http(this.path, 'POST', options, callback);
+  this._request(this.path, 'POST', options, callback);
 };
 Narrator.prototype._put = function (id, options, callback) {
-  this._http(this.path + '/' + id, 'PUT', options, callback);
+  this._request(this.path + '/' + id, 'PUT', options, callback);
 };
 Narrator.prototype._del = function (id, options, callback) {
-  this._http(this.path + '/' + id, 'DELETE', options, callback);
+  this._request(this.path + '/' + id, 'DELETE', options, callback);
 };
 
 Narrator.prototype.getAll = function (callback) {
