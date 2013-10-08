@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Mocksy = require('mocksy');
 var Narrator = require('../');
 
-var PORT = 9387;
+var PORT = 4756;
 var STUB_HOST = 'http://localhost:' + PORT;
 var server = new Mocksy({port: PORT});
 

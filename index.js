@@ -11,7 +11,7 @@ Narrator.create = function (options) {
 };
 
 Narrator.prototype.Endpoint = function (path, objDefinition) {
-  var C = objDefinition.initialize || function () {};
+  var C = (objDefinition && objDefinition.initialize) ? objDefinition.initialize : function () {};
   
   extend(C.prototype, Narrator.prototype, this, {
     path: '/' + path

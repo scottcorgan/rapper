@@ -16,6 +16,7 @@ var narrator = new Narrator({
   host: 'http://someendpoint.com'
 });
 
+// This will construct http://someendpoint.com/endpoint
 var SomeEndPoint = narrator.Endpoint('endpoint', {
   intialize: function (options) {
     // This is the constructor
