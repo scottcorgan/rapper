@@ -1,7 +1,7 @@
 var Narrator = require('narrator');
 
 // Instantiate a new Narrator that will all send custom headers
-var narrator = new Narrator({
+var api = new Narrator({
   host: 'http://somehost.com',
   headers: {
     authorization: 'some auth thing'
@@ -9,25 +9,14 @@ var narrator = new Narrator({
 });
 
 // Create a new Endpoint
-var Users =  narrator.Endpoint('users', {
-  initialize: function () {
-    // Do constructor stuff here
-  },
-  
+var users =  api.endpoint('users', {
   customUserMethod: (callback) {
-    // Make a GET request to http://somehost.com/users
-    // with custom headers
-    this._get(function (err, response, users) {
-      callback(err, users);
-    });
+    // Custom logic here
   }
 });
 
-var users = new Users();
-
 // And then, some where else
-
-users.getAll(function (err, users) {
+list.getAll(function (err, users) {
   // This made a GET request to http://somehost.com/users
   // It was sent with the custom header of "authorization"
   console.log(users);

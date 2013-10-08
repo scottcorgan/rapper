@@ -1,28 +1,22 @@
 var Narrator = require('narrator');
 
 // Instantiate a new Narrator
-var narrator = new Narrator({
+var api = new Narrator({
   host: 'http://somehost.com'
 });
 
 // Create a new Endpoint
-var Users =  narrator.Endpoint('users', {
-  initialize: function () {
-    // Do constructor stuff here
-  },
-  
+var users =  api.endpoint('users', {
   customUserMethod: (callback) {
-    // Make a GET request to http://somehost.com/users
-    this._get(function (err, response, users) {
-      callback(err, users);
-    });
+    // Custom logic here
   }
 });
 
-var users = new Users();
-
 // And then, some where else
-
-users.getAll(function (err, users) {
+users.list(function (err, users) {
   console.log(users);
+});
+
+users.create({name: 'frank'}, function (err, response) {
+  // user created
 });
