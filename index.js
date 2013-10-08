@@ -35,6 +35,11 @@ Narrator.prototype._parseJSON = function (data) {
 };
 
 Narrator.prototype._http = function (path, method, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  
   var self = this;
   var requestOptions = {
     url: this.host + path,
@@ -48,6 +53,11 @@ Narrator.prototype._http = function (path, method, options, callback) {
 };
 
 Narrator.prototype._request = function (path, method, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  
   var httpOptions = extend({
     headers: this.headers
   }, options);
@@ -56,22 +66,6 @@ Narrator.prototype._request = function (path, method, options, callback) {
     callback(err, response, body);
   });
 };
-
-// Narrator.prototype._authenticatedHttp: function (path, method, options, callback, ignoreAuthentication) {
-//   var self = this;
-//   if (!Api.user) {
-//     return callback('user undefined');
-//   }
-
-//   Api.user.authenticate(function (err, token) {
-//     defaults(options, {
-//       headers: {
-//         authorization: 'Bearer ' + token
-//       }
-//     });
-//     self._http(path, method, options, callback);
-//   });
-// };
 
 Narrator.prototype._get = function (options, callback) {
   this._request(this.path, 'GET', options, callback);

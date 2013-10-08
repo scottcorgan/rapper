@@ -80,6 +80,13 @@ describe('Narrator', function () {
         endpoint = new Endpoint();
       });
       
+      it('has optional options', function (done) {
+        narrator._http('/endpoint', 'GET', function (err, response, data) {
+          expect(data).to.be.ok;
+          done();
+        });
+      });
+      
       it('makes an http request from the given parameters', function (done) {
         endpoint._http('/endpoint', 'GET', {}, function (err, response, body) {
           expect(body.method).to.equal('GET');
@@ -109,6 +116,13 @@ describe('Narrator', function () {
           headers: {
             authorization: 'auth'
           }
+        });
+      });
+      
+      it('has optional options', function (done) {
+        narr._request('/endpoint', 'GET', function (err, response, data) {
+          expect(data).to.be.ok;
+          done();
         });
       });
       
