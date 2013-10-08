@@ -19,6 +19,10 @@ describe('Narrator', function () {
     expect(Narrator.create({}) instanceof Narrator).to.be.ok;
   });
   
+  it('sets the base path to "/"', function () {
+    expect(Narrator.create().path).to.equal('/');
+  });
+  
   describe('#endpoint()', function() {
     var narrator;
     var Endpoint;

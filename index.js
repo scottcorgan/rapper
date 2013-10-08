@@ -1,8 +1,10 @@
 var request = require('request');
 var defaults = require('lodash.defaults');
 var extend = require('lodash.assign');
+var urljoin = require('url-join');
 
 var Narrator = function (options) {
+  this.path = '/';
   extend(this, options);
 };
 
@@ -14,7 +16,7 @@ Narrator.prototype.Endpoint = function (path, objDefinition) {
   var C = (objDefinition && objDefinition.initialize) ? objDefinition.initialize : function () {};
   
   extend(C.prototype, Narrator.prototype, this, {
-    path: '/' + path
+    path: urljoin('/', this.path, path)
   }, objDefinition);
   
   return C;
