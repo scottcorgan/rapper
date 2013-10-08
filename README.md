@@ -49,24 +49,21 @@ module.exports = new SomeEndPoint(options);
 
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
-  * **response** - contains all types of response information
-  * **body** - Response from request (parsed if JSON)
+  * **response** - Response from request (parsed if JSON)
 
 ### getById(id [, callback])
 
 * ` id ` - id passed to endpoint for request
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
-  * **response** - contains all types of response information
-  * **body** - Response from request (parsed if JSON)
+  * **response** - Response from request (parsed if JSON)
 
 ### create(payload [, callback])
 
 * ` payload ` - the payload data to send to the server in the request
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
-  * **response** - contains all types of response information
-  * **body** - Response from request (parsed if JSON)
+  * **response** - Response from request (parsed if JSON)
 
 ### update(id, payload [, callback])
 
@@ -74,16 +71,14 @@ module.exports = new SomeEndPoint(options);
 * ` payload ` - the payload data to send to the server in the request
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
-  * **response** - contains all types of response information
-  * **body** - Response from request (parsed if JSON)
+  * **response** - Response from request (parsed if JSON)
 
 ### remove(id, [, callback])
 
 * ` id ` - id of record to delete at the endpoint
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
-  * **response** - contains all types of response information
-  * **body** - Response from request (parsed if JSON)
+  * **response** - Response from request (parsed if JSON)
 
 
 ## Run Tests
