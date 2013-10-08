@@ -16,7 +16,7 @@ var narrator = new Narrator({
   host: 'http://someendpoint.com'
 });
 
-var SomeEndPoint = narrator.Endpoint('/endpoint', {
+var SomeEndPoint = narrator.Endpoint('endpoint', {
   intialize: function (options) {
     // This is the constructor
   },
@@ -31,7 +31,11 @@ var options = {};
 module.exports = new SomeEndPoint(options);
 ```
 
-## Endpoint Functionality
+## Narrator Instance Methods
+
+### _http(path, method, options, callback)
+
+## Endpoint Instance Methods
 
 ### get([callback])
 ### getById(id [, callback])
