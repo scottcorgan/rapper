@@ -173,6 +173,17 @@ describe('Narrator', function () {
           done();
         });
       });
+      
+      it('updates and item by id with a payload', function (done) {
+        endpoint.update('id', {name: 'guy'}, function (err, response) {
+          expect(response.method).to.equal('PUT');
+          expect(response.url).to.equal('/endpoint/id');
+          expect(response.body).to.eql({
+            name: 'guy'
+          });
+          done();
+        });
+      });
     });
   });
 });

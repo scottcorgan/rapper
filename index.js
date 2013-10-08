@@ -95,7 +95,11 @@ Narrator.prototype.create = function (payload, callback) {
   });
 },
 
-Narrator.prototype.update = function (id, payload, callback) {},
+Narrator.prototype.update = function (id, payload, callback) {
+  this._put(id, {form: payload}, function (err, response, body) {
+    callback(err, body);
+  });
+},
 
 Narrator.prototype.remove = function (id, callback) {}
 
