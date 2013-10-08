@@ -34,7 +34,19 @@ module.exports = new SomeEndPoint(options);
 
 ## Narrator Instance Methods
 
-### _http(path, method [,options, callback])
+### _http(path, method [, options, callback])
+
+* ` path ` - the path to add to the end of the host (i.e. ` /path `)
+* ` method ` - the http method type of the request (GET, POST, PUT, DELETE)
+* ` options ` - optional extras to add to the request, such as headers, form data, etc.
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Response from request (stringified)
+
+### _request(path, method [, options, callback])
+
+This method is the same as ` _http `, except that it sends the headers declared on the **Narrator** instance for each request
 
 * ` path ` - the path to add to the end of the host (i.e. ` /path `)
 * ` method ` - the http method type of the request (GET, POST, PUT, DELETE)
