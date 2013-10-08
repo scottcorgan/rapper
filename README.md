@@ -32,6 +32,8 @@ var options = {};
 module.exports = new SomeEndPoint(options);
 ```
 
+Also, see [Narrator Examples](https://github.com/scottcorgan/narrator/tree/master/examples)
+
 ## Narrator Instance Methods
 
 ### _http(path, method [, options, callback])
@@ -61,6 +63,8 @@ This method is the same as ` _http `, except that it sends the headers declared 
 * ` headers ` - an object containing key/value pairs of headers to send on each request
 
 ## Endpoint Instance Methods
+
+All **Narrator** instance methods are available on all Endpoint instances
 
 ### get([callback])
 
