@@ -39,15 +39,43 @@ module.exports = new SomeEndPoint(options);
 
 ### get([callback])
 
-* ` callback ` - callback is passed the arguments
+* ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
   * **body** - Resposne from request
 
 ### getById(id [, callback])
-### create(options [, callback])
-### update(data [, callback])
+
+* ` id ` - id passed to endpoint for request
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Resposne from request
+
+### create(payload [, callback])
+
+* ` payload ` - the payload data to send to the server in the request
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Resposne from request
+
+### update(id, payload [, callback])
+
+* ` id ` - id of record being updated at the endpoint
+* ` payload ` - the payload data to send to the server in the request
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Resposne from request
+
 ### remove(id, [, callback])
+
+* ` id ` - id of record to delete at the endpoint
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Resposne from request
 
 
 ## Run Tests
