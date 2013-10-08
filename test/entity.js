@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var entity = require('../lib/entity');
 var stubServer = require('./stubs/server');
 var extend = require('lodash.assign');
+var Narrator = require('../lib/narrator');
 
 describe('.entity', function () {
   var user;
@@ -46,6 +47,14 @@ describe('.entity', function () {
       expect(err).to.equal(null);
       expect(response.method).to.equal('DELETE');
       done();
+    });
+  });
+  
+  describe('#endpoint()', function () {
+    it('creates a nested endpoint', function () {
+      // var friends = user.endpoint('friends');
+      
+      // expect(friends.url()).to.equal(user.url() + '/friends');
     });
   });
 });

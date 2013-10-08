@@ -49,20 +49,20 @@ describe('Narrator', function () {
       expect(users.customMethod.toString()).to.equal(customMethod.toString());
     });
     
-    // it('gets all from an endpoint', function (done) {
-    //   users.list(function (err, list) {
-    //     expect(err).to.equal(null);
-    //     done();
-    //   });
-    // });
+    it('gets all from an endpoint', function (done) {
+      users.list(function (err, list) {
+        expect(err).to.equal(null);
+        done();
+      });
+    });
     
-    // it('creats a new resource from the endpoint', function () {
-    //   users.create({
-    //     name: 'frank'
-    //   }, function (err, response) {
-    //     expect(err).to.equal(null);
-    //     done();
-    //   });
-    // });
+    it('creats a new resource from the endpoint', function () {
+      users.create({
+        name: 'frank'
+      }, function (err, response) {
+        expect(err).to.equal(null);
+        done();
+      });
+    });
   });
 });
