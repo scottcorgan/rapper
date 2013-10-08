@@ -36,7 +36,13 @@ users.create({name: 'frank'}, function (err, response) {
 
 // OR
 
-users.customMethod():
+users.customMethod();
+
+// AND
+
+var user = users.one(123);
+user.get(function (err, userData) {
+});
 ```
 
 Also, see [Narrator Examples](https://github.com/scottcorgan/narrator/tree/master/examples)
