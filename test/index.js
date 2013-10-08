@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var Mocksy = require('mocksy');
+var sinon = require('sinon');
 var Narrator = require('../');
 
 var PORT = 4756;
@@ -50,6 +51,39 @@ describe('Narrator', function () {
       'x-custom': 'header'
     });
   });
+  
+  describe('Narrator pre and post request hooks', function () {
+    var narrator;
+    var preSpy = sinon.spy();
+    
+    beforeEach(function () {
+      narrator = new Narrator({
+        host: STUB_HOST,
+        pre: preSpy
+      });
+    });
+    
+    it('calls the pre request hook for each request', function (done) {
+      narrator._request('/endpoint', 'GET', function (err, response, body) {});
+      expect(preSpy.called).to.be.ok;
+      done();
+    });
+    
+    it('calls the pre request hook with the given values', function (done) {
+      narrator = new Narrator({
+        host: STUB_HOST,
+        pre: preMethod
+      });
+      
+      narrator._request('/endpoint', 'GET', function () {});
+      
+      function preMethod (request, next) {
+        expect(request).to.have.keys(['instance', 'path', 'method', 'options']);
+        expect(next).to.be.a('function');
+        done();
+      }
+    });
+  })
   
   describe('#endpoint()', function() {
     var narrator;

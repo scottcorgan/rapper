@@ -6,6 +6,7 @@ var urljoin = require('url-join');
 var Narrator = function (options) {
   this.path = '/';
   this.headers = {};
+  this.pre = function (request, callback) { callback() };
   
   extend(this, options);
 };
@@ -57,6 +58,8 @@ Narrator.prototype._http = function (path, method, options, callback) {
 };
 
 Narrator.prototype._request = function (path, method, options, callback) {
+  var self = this;
+  
   if (typeof options === 'function') {
     callback = options;
     options = {};
@@ -66,9 +69,17 @@ Narrator.prototype._request = function (path, method, options, callback) {
     headers: this.headers
   }, options);
   
-  this._http(path, method, httpOptions, function (err, response, body) {
-    callback(err, response, body);
+  this.pre({
+    instance: this,
+    path: path,
+    method: method,
+    options: httpOptions
+  }, function () {
+    self._http(path, method, httpOptions, function (err, response, body) {
+      callback(err, response, body);
+    });
   });
+  
 };
 
 Narrator.prototype._get = function (options, callback) {

@@ -13,7 +13,10 @@ npm install narrator --save
 ```javascript
 var Narrator = require('narrator');
 var narrator = new Narrator({
-  host: 'http://someendpoint.com'
+  host: 'http://someendpoint.com',
+  pre: function (request, next) {
+    next('some value');
+  }
 });
 
 // This will construct http://someendpoint.com/endpoint
@@ -48,7 +51,7 @@ Also, see [Narrator Examples](https://github.com/scottcorgan/narrator/tree/maste
 
 ### _request(path, method [, options, callback])
 
-This method is the same as ` _http `, except that it sends the headers declared on the **Narrator** instance for each request
+This method is the same as ` _http `, except that it sends the headers declared on the **Narrator** instance for each request and performs the ` pre ` request method (provided when instantiating Narrator) prior to executing the http request.
 
 * ` path ` - the path to add to the end of the host (i.e. ` /path `)
 * ` method ` - the http method type of the request (GET, POST, PUT, DELETE)
