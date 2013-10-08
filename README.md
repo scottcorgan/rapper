@@ -64,7 +64,7 @@ This method is the same as ` _http `, except that it sends the headers declared 
 
 ## Endpoint Instance Methods
 
-All **Narrator** instance methods are available on all Endpoint instances
+(All **Narrator** instance methods are available on all Endpoint instances as well)
 
 ### get([callback])
 
