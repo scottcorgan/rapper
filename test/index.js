@@ -138,5 +138,41 @@ describe('Narrator', function () {
         });
       });
     });
+    
+    describe('Deafault api calls', function() {
+      var endpoint;
+      
+      beforeEach(function () {
+        endpoint = new Endpoint();
+      });
+      
+      it('gets a list of all items', function (done) {
+        endpoint.getAll(function (err, items) {
+          expect(items.method).to.equal('GET');
+          expect(items.url).to.equal('/endpoint');
+          done();
+        });
+      });
+      
+      it('gets an item by the id', function (done) {
+        endpoint.getById('id', function (err, items) {
+          expect(items.method).to.equal('GET');
+          expect(items.url).to.equal('/endpoint/id');
+          done();
+        });
+      });
+      
+      it('creates and item with a payload', function (done) {
+        endpoint.create({
+          email: 'asdf@asdf.com'
+        }, function (err, response) {
+          expect(response.method).to.equal('POST');
+          expect(response.body).to.eql({
+            email: 'asdf@asdf.com'
+          });
+          done();
+        });
+      });
+    });
   });
 });
