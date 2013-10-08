@@ -4,7 +4,7 @@
   "description": "Construct api wrappers around RESTful endpoints",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha --recursive ./test"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,15 @@
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/scottcorgan/narrate/issues"
+  },
+  "dependencies": {
+    "request": "~2.27.0",
+    "lodash.defaults": "~2.2.1",
+    "lodash.assign": "~2.2.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "chai": "~1.8.0",
+    "mocksy": "~0.1.4"
   }
 }
