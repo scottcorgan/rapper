@@ -24,6 +24,10 @@ Narrator.prototype.Endpoint = function (path, objDefinition) {
   return C;
 };
 
+Narrator.prototype.setHeaders = function (headers) {
+  this.headers = headers;
+};
+
 Narrator.prototype._parseJSON = function (data) {
   try {
     data = JSON.parse(data);

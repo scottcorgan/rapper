@@ -35,6 +35,22 @@ describe('Narrator', function () {
     });
   });
   
+  it('can reset the headers at a later point', function () {
+    var narrator = new Narrator({
+      headers: {
+        authorization: 'something'
+      }
+    });
+    
+    narrator.setHeaders({
+      'x-custom': 'header'
+    });
+    
+    expect(narrator.headers).to.eql({
+      'x-custom': 'header'
+    });
+  });
+  
   describe('#endpoint()', function() {
     var narrator;
     var Endpoint;
