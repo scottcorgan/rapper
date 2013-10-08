@@ -33,7 +33,15 @@ module.exports = new SomeEndPoint(options);
 
 ## Narrator Instance Methods
 
-### _http(path, method, options, callback)
+### _http(path, method [,options, callback])
+
+* ` path ` - the path to add to the end of the host (i.e. ` /path `)
+* ` method ` - the http method type of the request (GET, POST, PUT, DELETE)
+* ` options ` - optional extras to add to the request, such as headers, form data, etc.
+* ` callback ` - callback is passed the arguments:
+  * **err** - error object
+  * **response** - contains all types of response information
+  * **body** - Response from request (stringified)
 
 ## Endpoint Instance Methods
 
@@ -42,7 +50,7 @@ module.exports = new SomeEndPoint(options);
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
-  * **body** - Resposne from request
+  * **body** - Response from request (parsed if JSON)
 
 ### getById(id [, callback])
 
@@ -50,7 +58,7 @@ module.exports = new SomeEndPoint(options);
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
-  * **body** - Resposne from request
+  * **body** - Response from request (parsed if JSON)
 
 ### create(payload [, callback])
 
@@ -58,7 +66,7 @@ module.exports = new SomeEndPoint(options);
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
-  * **body** - Resposne from request
+  * **body** - Response from request (parsed if JSON)
 
 ### update(id, payload [, callback])
 
@@ -67,7 +75,7 @@ module.exports = new SomeEndPoint(options);
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
-  * **body** - Resposne from request
+  * **body** - Response from request (parsed if JSON)
 
 ### remove(id, [, callback])
 
@@ -75,7 +83,7 @@ module.exports = new SomeEndPoint(options);
 * ` callback ` - callback is passed the arguments:
   * **err** - error object
   * **response** - contains all types of response information
-  * **body** - Resposne from request
+  * **body** - Response from request (parsed if JSON)
 
 
 ## Run Tests
