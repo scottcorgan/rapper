@@ -1,7 +1,7 @@
 {
   "name": "narrator",
   "version": "0.4.0",
-  "description": "Construct api wrappers around RESTful endpoints",
+  "description": "Construct wrappers around api RESTful endpoints",
   "main": "lib/narrator.js",
   "scripts": {
     "test": "node_modules/.bin/mocha --recursive --reporter spec ./test"
