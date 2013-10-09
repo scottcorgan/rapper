@@ -17,9 +17,9 @@ describe('.endpoint', function() {
     stubServer.server.stop(done);
   });
   
-  it('extends the http object', function () {
-    expect(endpoint).to.contain.keys(Object.keys(_http));
-  });
+  // it('extends the http object', function () {
+  //   expect(endpoint).to.contain.keys(Object.keys(_http));
+  // });
   
   it('generates the full request url', function () {
     expect(endpoint.url()).to.equal(stubServer.STUB_HOST + '/users');

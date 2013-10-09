@@ -65,6 +65,11 @@ describe('#Entity()', function () {
     expect(testEndpoint).to.equal('endpoint');
   });
   
+  it('sets up a default pre hook', function () {
+    var entity = new Entity();
+    expect(entity.hooks.pre).to.be.ok;
+  });
+  
   it('has an instance of Http', function () {
     expect(this.entity.http instanceof Http).to.be.ok;
   });
