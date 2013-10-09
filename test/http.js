@@ -1,10 +1,8 @@
 var expect = require('chai').expect;
-// var Narrator = require('../lib/narrator');
-// var endpoint = require('../lib/endpoint');
 var Http = require('../lib/http');
 var stubServer = require('./stubs/server');
 
-describe('Http', function () {
+describe('#Http()', function () {
   
   beforeEach(function (done) {
     this.http = new Http();
@@ -18,6 +16,18 @@ describe('Http', function () {
   it('sets defaults to avoid undefined errors', function () {
     var http = new Http();
     expect(http.options).to.contain.keys(['headers', 'hooks', 'context']);
+  });
+  
+  it('overrides the defaults', function () {
+    var http = new Http({
+      context: 'context',
+      headers: 'headers',
+      hooks: 'hooks'
+    });
+    
+    expect(http.options.context).to.equal('context');
+    expect(http.options.headers).to.equal('headers');
+    expect(http.options.hooks).to.equal('hooks');
   });
   
   it('manually sets the headers', function () {
