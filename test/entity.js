@@ -1,16 +1,16 @@
 var expect = require('chai').expect;
-var entity = require('../lib/entity');
-var stubServer = require('./stubs/server');
 var extend = require('lodash.assign');
+var Entity = require('../lib/entity');
+var Http = require('../lib/http');
+var stubServer = require('./stubs/server');
 
-describe('.entity', function () {
-  var user;
+describe('#Entity()', function () {
   
   beforeEach(function (done) {
-    user = extend({}, entity, {
+    this.entity = new Entity({
+      host: stubServer.STUB_HOST,
       path: '/users',
       id: 123,
-      host: stubServer.STUB_HOST,
       headers: stubServer.HEADERS
     });
     
@@ -21,12 +21,16 @@ describe('.entity', function () {
     stubServer.server.stop(done);
   });
   
+  it('sets required defaults', function () {
+    expect(this.entity.options).to.contain.keys(['host', 'path', 'headers', '_endpoints']);
+  });
+  
   it('generates the url for the http request', function () {
-    expect(user.url()).to.equal(stubServer.STUB_HOST + '/users/123');
+    expect(this.entity.url()).to.equal(stubServer.STUB_HOST + '/users/123');
   });
   
   it('gets the resource data for the current single endpoing', function (done) {
-    user.get(function (err, data) {
+    this.entity.get(function (err, data) {
       expect(err).to.equal(null);
       expect(data.method).to.equal('GET');
       done();
@@ -34,7 +38,7 @@ describe('.entity', function () {
   });
   
   it('udpates the current resource', function (done) {
-    user.update({ name: 'olga' }, function (err, response) {
+    this.entity.update({ name: 'olga' }, function (err, response) {
       expect(err).to.equal(null);
       expect(response.method).to.equal('PUT');
       expect(response.body).to.eql({ name: 'olga' });
@@ -43,70 +47,55 @@ describe('.entity', function () {
   });
   
   it('performs a DELETE request to remove the current resource', function (done) {
-    user.remove(function (err, response) {
+    this.entity.remove(function (err, response) {
       expect(err).to.equal(null);
       expect(response.method).to.equal('DELETE');
       done();
     });
   });
   
+  it('gets an endpoint by the path', function () {
+    var entity = new Entity({
+      _endpoints: {
+        test: 'endpoint'
+      }
+    });
+    
+    var testEndpoint = entity.getEndpoint('test');
+    expect(testEndpoint).to.equal('endpoint');
+  });
+  
+  it('sets up a default pre hook', function () {
+    var entity = new Entity();
+    expect(entity.hooks.pre).to.be.ok;
+  });
+  
+  it('has an instance of Http', function () {
+    expect(this.entity.http instanceof Http).to.be.ok;
+  });
+  
   describe('#endpoint()', function () {
-    var friends;
     
     beforeEach(function () {
-      console
-      friends = user.endpoint('friends');
+      this.subEntity = this.entity.endpoint('subEntity');
     });
     
     it('creates a nested endpoint', function () {
-      expect(friends.url()).to.equal(user.url() + '/friends');
-      expect(friends.headers).to.eql(stubServer.HEADERS);
+      expect(this.subEntity.url()).to.equal(this.entity.url() + '/subEntity');
+      expect(this.subEntity.options.headers).to.eql(stubServer.HEADERS);
     });
     
     it('creates a singular resource endpoing', function () {
-      var friend = friends.one(456);
-      expect(friend.url()).to.equal(user.url() + '/friends/456');
+      var singleSubEntity = this.subEntity.one(456);
+      expect(singleSubEntity.url()).to.equal(this.entity.url() + '/subEntity/456');
     });
     
-    it.only('handles infinitely nested routes', function () {
-      var Narrator = require('../lib/narrator');
-      console.log('\n=======================\n\n');
+    it('handles infinitely nested routes', function () {
+      var singleSubEntity = this.subEntity.one(456);
+      var subSingleSubEntity = singleSubEntity.endpoint('subSingleSubEntity');
       
-      var api = new Narrator({
-        host: 'http://localhost:8000'
-      });
-      
-      var users = api.endpoint('users');
-      console.log('users:', users.url());
-      
-      var user = users.one(123);
-      console.log('user:', user.url());
-      
-      var friends = user.endpoint('friends');
-      console.log('friends:', friends.url());
-      
-      var friend = friends.one(456);
-      console.log('friend:', friend.url());
-      
-      var families = friend.endpoint('families');
-      console.log('families:', families.url());
-      
-      var family = families.one(4312);
-      console.log('family:', family.url());
-      
-      console.log('\n\n=======================\n\n');
-      // console.log('\n', user.url());
-      // console.log('', friends.url());
-      // var friend = friends.one(456);
-      // console.log('', friend.url());
-      // var related = friend.endpoint('related');
-      // console.log('', related.url());
-      // var rel = related.one(4321);
-      // console.log('', rel.url());
-      // var relUsers = rel.endpoint('rel_users');
-      // console.log('', relUsers.url());
-      
-      // expect(related.url()).to.equal(friend.url() + '/related');
+      expect(subSingleSubEntity.url()).to.equal(singleSubEntity.url() + '/subSingleSubEntity');
     });
+    
   });
 });

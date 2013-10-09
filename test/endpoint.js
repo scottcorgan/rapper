@@ -1,32 +1,32 @@
 var expect = require('chai').expect;
-var endpoint = require('../lib/endpoint');
-var _http = require('../lib/http');
-var entity = require('../lib/entity');
+var Endpoint = require('../lib/endpoint');
+var Entity = require('../lib/entity');
+var Http = require('../lib/http');
 var stubServer = require('./stubs/server');
 
-describe('.endpoint', function() {
+describe('#Endpoint()', function () {
+  
   beforeEach(function (done) {
-    endpoint.host = stubServer.STUB_HOST;
-    endpoint.path = '/users';
-    endpoint.pre = function (api, next) {next();};
+    this.path = '/endpoint';
+    this.endpoint = new Endpoint({
+      host: stubServer.STUB_HOST,
+      path: '/endpoint',
+      headers: stubServer.HEADERS
+    });
+    
     stubServer.server.start(done);
   });
   
   afterEach(function (done) {
-    delete endpoint.path;
     stubServer.server.stop(done);
   });
   
-  it('extends the http object', function () {
-    expect(endpoint).to.contain.keys(Object.keys(_http));
-  });
-  
-  it('generates the full request url', function () {
-    expect(endpoint.url()).to.equal(stubServer.STUB_HOST + '/users');
+  it('generates the url for the http request', function () {
+    expect(this.endpoint.url()).to.equal(stubServer.STUB_HOST + this.path);
   });
   
   it('performs a GET request to the endpoint to retrieve a list', function (done) {
-    endpoint.list(function (err, response) {
+    this.endpoint.list(function (err, response) {
       expect(response.method).to.equal('GET');
       done();
     });
@@ -37,38 +37,54 @@ describe('.endpoint', function() {
       name: 'frank'
     };
     
-    endpoint.create(body, function (err, response) {
+    this.endpoint.create(body, function (err, response) {
       expect(response.method).to.equal('POST');
       expect(response.body).to.eql(body);
       done();
     });
   });
   
-  describe('#one()', function () {
-    var user;
-    
-    beforeEach(function () {
-      user = endpoint.one('123');
+  it('has an instance of Http', function () {
+    expect(this.endpoint.http instanceof Http).to.be.ok;
+  });
+  
+  it('sets up a default pre hook', function () {
+    var endpoint = new Endpoint();
+    expect(endpoint.hooks.pre).to.be.ok;
+  });
+  
+  it('gets an endpoint by the path', function () {
+    var endpoint = new Endpoint({
+      _endpoints: {
+        test: 'endpoint'
+      }
     });
     
-    it('extends .entity as a new endpoint', function () {
-      expect(user).to.contain.keys(Object.keys(entity));
+    var testEndpoint = endpoint.getEndpoint('test');
+    expect(testEndpoint).to.equal('endpoint');
+  });
+  
+  describe('#one()', function () {
+    beforeEach(function () {
+      this.id = 123;
+      this.subEndpoint = this.endpoint.one(this.id);
+    });
+    
+    it('extends #Entity() as a new endpoint', function () {
+      expect(this.subEndpoint instanceof Entity).to.be.ok;
     });
     
     it('sets the id', function () {
-      expect(user.id).to.equal('123');
-    });
-    
-    it('passes the pre method from the parent', function () {
-      expect(user.pre).to.be.ok;
+      expect(this.subEndpoint.options.id).to.equal(this.id);
     });
     
     it('passes the headers', function () {
-      expect(user.headers).to.be.ok;
+      expect(this.subEndpoint.options.headers).to.eql(stubServer.HEADERS);
     });
     
-    it.skip('passes #endpoint()', function () {
-      expect(user.endpoint).to.be.ok;
-    });
+    // TODO: implement this
+    // it.skip('passes #endpoint()', function () {
+    //   expect(this.subEndpoint.endpoint).to.be.ok;
+    // });
   });
 });

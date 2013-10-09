@@ -7,37 +7,38 @@ var narratorOptions = {
   headers: stubServer.HEADERS
 };
 
-describe('Narrator', function () {
-  var api;
+describe('#Narrator()', function () {
   
   beforeEach(function () {
-    api = new Narrator(narratorOptions);
+    this.api = new Narrator(narratorOptions);
   });
   
-  describe('#Narrator()', function () {
-    it('instantiates Narrator with an _endpoints collection', function () {
-      expect(api._endpoints).to.eql({});
-    });
-    
-    it('instantiates Narrator with a host', function () {
-      expect(api.host).to.equal(stubServer.STUB_HOST);
-    });
-    
-    it('instantiates with optional headers', function () {
-      expect(api.headers).to.equal(stubServer.HEADERS);
-    });
+  it('instantiates Narrator with an _endpoints collection', function () {
+    expect(this.api._endpoints).to.eql({});
   });
   
-  describe('#endpoint() as a factory', function () {
-    var users;
-    var customMethod = function () {
-      return 'ya!';
-    };
+  it('instantiates Narrator with a host', function () {
+    expect(this.api.host).to.equal(stubServer.STUB_HOST);
+  });
+  
+  it('instantiates with optional headers', function () {
+    expect(this.api.headers).to.equal(stubServer.HEADERS);
+  });
+  
+  it('returns the endpoint if it is already declared', function () {
+    var users = this.api.endpoint('users', {
+      customMethod: function () {}
+    });
+    var usersEndpoint = this.api.endpoint('users');
+    
+    expect(usersEndpoint).to.eql(users);
+  });
+  
+  describe('#endpoint()', function () {
     
     beforeEach(function (done) {
-      users = api.endpoint('users', {
-        customMethod: customMethod
-      });
+      this.customMethod = function () { return 'ya!'; };
+      this.users = this.api.endpoint('users', { customMethod: this.customMethod });
       stubServer.server.start(done);
     });
     
@@ -46,35 +47,22 @@ describe('Narrator', function () {
     });
     
     it('creates a new endpoint with given path', function () {
-      expect(users.path).to.equal('/users');
+      expect(this.users.options.path).to.equal('/users');
     });
     
     it('creates a new endpoint with the given _endpoints', function () {
-      expect(users._endpoints).to.be.ok;
-    });
-    
-    it('creates a new endpoint with #endpoint() available', function () {
-      expect(users.endpoint).to.be.ok;
+      expect(this.users.options._endpoints).to.be.ok;
     });
     
     it('extends functionaly with custom method declarations', function () {
-      expect(users.customMethod.toString()).to.equal(customMethod.toString());
+      expect(this.users.customMethod.toString()).to.equal(this.customMethod.toString());
     });
     
     it('gets all from an endpoint', function (done) {
-      users.list(function (err, list) {
+      this.users.list(function (err, list) {
         expect(err).to.equal(null);
         done();
       });
     });
-  });
-  
-  it('returns the endpoint if it is already declared', function () {
-    var users = api.endpoint('users', {
-      customMethod: function () {}
-    });
-    var usersEndpoint = api.endpoint('users');
-    
-    expect(usersEndpoint).to.eql(users);
   });
 });

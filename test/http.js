@@ -1,11 +1,11 @@
 var expect = require('chai').expect;
-var Narrator = require('../lib/narrator');
-var endpoint = require('../lib/endpoint');
-var http = require('../lib/http');
+var Http = require('../lib/http');
 var stubServer = require('./stubs/server');
 
-describe('http', function () {
+describe('#Http()', function () {
+  
   beforeEach(function (done) {
+    this.http = new Http();
     stubServer.server.start(done);
   });
   
@@ -13,52 +13,70 @@ describe('http', function () {
     stubServer.server.stop(done);
   });
   
-  it('sets default headers to empty', function () {
-    expect(http.headers).to.eql({});
+  it('sets defaults to avoid undefined errors', function () {
+    var http = new Http();
+    expect(http.options).to.contain.keys(['headers', 'hooks', 'context']);
   });
   
-  it('sets the headers manually', function () {
-    http.setHeaders(stubServer.HEADERS);
-    expect(http.headers).to.eql(stubServer.HEADERS);
+  it('overrides the defaults', function () {
+    var http = new Http({
+      context: 'context',
+      headers: 'headers',
+      hooks: 'hooks'
+    });
+    
+    expect(http.options.context).to.equal('context');
+    expect(http.options.headers).to.equal('headers');
+    expect(http.options.hooks).to.equal('hooks');
+  });
+  
+  it('manually sets the headers', function () {
+    this.http.setHeaders({
+      key: 'value'
+    });
+    
+    expect(this.http.options.headers).to.eql({
+      key: 'value'
+    });
   });
   
   it('parses JSON or not', function () {
-    expect(http._parseJSON('{"key":"value"}')).to.eql({
+    expect(this.http._parseJSON('{"key":"value"}')).to.eql({
       key: 'value'
     });
-    expect(http._parseJSON('test')).to.equal('test');
+    expect(this.http._parseJSON('test')).to.equal('test');
   });
   
   it('makes an http request with the given method', function (done) {
-    http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
+    this.http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect(body.method).to.equal('GET');
       done();
     });
   });
   
   it('makes an http request to the given host', function (done) {
-    http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
+    this.http._http(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect('http://' + body.headers.host).to.equal(stubServer.STUB_HOST);
       done();
     });
   });
   
   it('makes an http request with custom headers', function (done) {
-    http.setHeaders(stubServer.HEADERS);
-    http.request(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
+    this.http.setHeaders(stubServer.HEADERS);
+    this.http.request(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect(body.headers.authorization).to.equal('token');
       done();
     });
   });
   
-  it('allows options to be otional for _http', function (done) {
-    http._http(stubServer.STUB_HOST, 'GET', function () {
+  it('allows options to be options for #_http()', function (done) {
+    this.http._http(stubServer.STUB_HOST, 'GET', function () {
       done();
     });
   });
   
-  it('allows options to be otional for request', function (done) {
-    http.request(stubServer.STUB_HOST, 'GET', function () {
+  it('allows options to be options for #request()', function (done) {
+    this.http.request(stubServer.STUB_HOST, 'GET', function () {
       done();
     });
   });
@@ -66,12 +84,12 @@ describe('http', function () {
   it('executes the pre hook if defined', function (done) {
     var preHookCalled = false;
     
-    http.pre = function (endpoint, next) {
+    this.http.options.hooks.pre = function (next) {
       preHookCalled = true;
       next();
     };
     
-    http.request(stubServer.STUB_HOST, 'GET', function () {
+    this.http.request(stubServer.STUB_HOST, 'GET', function () {
       expect(preHookCalled).to.be.ok;
       done();
     });
