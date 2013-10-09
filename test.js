@@ -7,7 +7,8 @@ var api = new Narrator({
 var apps = api.endpoint('apps', {
   hooks: {
     pre: function (next) {
-      console.log('from pre===============================================');
+      // var releaseEndpoint = this.getEndpoint('releases')
+      // console.log(releaseEndpoint, '===============================================');
       next();
     }
   },
@@ -18,27 +19,33 @@ var apps = api.endpoint('apps', {
 
 // apps.customMethod();
 
-apps.list(function (err, appList) {
-  console.log(err, appList);
-});
+// apps.list(function (err, appList) {
+//   console.log(err, appList);
+// });
 
 
 // console.log('apps:', apps.url());
 
-var app = apps.one(123);
+var app = apps.one(123, {
+  hooks: {
+    pre: function (next) {
+      next();
+    }
+  }
+});
 // app.get(function (err, appData) {
 //   console.log(err, appData);
 // });
 // console.log('app:', app.url());
 
-// var releases = app.endpoint('releases');
+var releases = app.endpoint('releases');
 // console.log('releases:', releases.url());
 
-// var release = releases.one(456);
+var release = releases.one(456);
 // console.log('release:', release.url());
 
-// var builds = release.endpoint('builds');
+var builds = release.endpoint('builds');
 // console.log('builds:', builds.url());
 
-// var build = builds.one(789);
+var build = builds.one(789);
 // console.log('build:', build.url());
