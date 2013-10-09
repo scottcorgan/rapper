@@ -25,9 +25,7 @@
     "request": "~2.27.0",
     "lodash.defaults": "~2.2.1",
     "lodash.assign": "~2.2.1",
-    "url-join": "0.0.1",
-    "lodash.clone": "~2.2.1",
-    "lodash.clonedeep": "~2.2.1"
+    "url-join": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
