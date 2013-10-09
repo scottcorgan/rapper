@@ -4,8 +4,41 @@ var api = new Narrator({
   host: 'http://api.dev.divshot.com:9393'
 });
 
-var users = api.endpoint('users', {
-  customMethod: function () {}
+var apps = api.endpoint('apps', {
+  hooks: {
+    pre: function (next) {
+      console.log('from pre===============================================');
+      next();
+    }
+  },
+  customMethod: function () {
+    console.log('custom method');
+  }
 });
 
-console.log(users.url());
+// apps.customMethod();
+
+apps.list(function (err, appList) {
+  console.log(err, appList);
+});
+
+
+// console.log('apps:', apps.url());
+
+var app = apps.one(123);
+// app.get(function (err, appData) {
+//   console.log(err, appData);
+// });
+// console.log('app:', app.url());
+
+// var releases = app.endpoint('releases');
+// console.log('releases:', releases.url());
+
+// var release = releases.one(456);
+// console.log('release:', release.url());
+
+// var builds = release.endpoint('builds');
+// console.log('builds:', builds.url());
+
+// var build = builds.one(789);
+// console.log('build:', build.url());
