@@ -59,7 +59,7 @@ var users = api.endpoint('users');
 // users.list();
 // users.create();
 // users.one();
-
+// users.getEndpoint();
 ```
 
 ### url()
@@ -89,6 +89,13 @@ Creates an new single item endpoint with the given id from the mult-item endpoin
 
 * ` id ` - the id of the single item to create and endpoint form
 
+### getEndpoint(name [, id]);
+
+Gets an endpoint by the endpoint pathname. If the endpoint you're getting is a singular item endpoint with and id, pass the id along.
+
+* ` name ` - the pathname of the endpoint
+* ` id ` - the id of the singular resource used when creating the path
+
 ## Single-item endpoint
 
 Example:
@@ -102,6 +109,7 @@ var user = users.one(123); // Generats /user/123
 // user.update();
 // user.remove();
 // user.endpoint();
+// user.getEndpoint();
 ```
 
 ### url()
@@ -134,6 +142,12 @@ This creates a new endpoint prefixed by the endpoint path that called this metho
 * ` name ` - the name of the endpoing, which is used to build the path (i.e. ` users ` creates the path ` /users `)
 * ` customMethods ` - an object contain custom methods to add to the endpoint object
 
+### getEndpoint(name [, id]);
+
+Gets an endpoint by the endpoint pathname. If the endpoint you're getting is a singular item endpoint with and id, pass the id along.
+
+* ` name ` - the pathname of the endpoint
+* ` id ` - the id of the singular resource used when creating the path
 
 ## Run Tests
 
