@@ -15,6 +15,10 @@ describe('Narrator', function () {
   });
   
   describe('#Narrator()', function () {
+    it('instantiates Narrator with an _endpoints collection', function () {
+      expect(api._endpoints).to.eql({});
+    });
+    
     it('instantiates Narrator with a host', function () {
       expect(api.host).to.equal(stubServer.STUB_HOST);
     });
@@ -45,6 +49,14 @@ describe('Narrator', function () {
       expect(users.path).to.equal('/users');
     });
     
+    it('creates a new endpoint with the given _endpoints', function () {
+      expect(users._endpoints).to.be.ok;
+    });
+    
+    it('creates a new endpoint with #endpoint() available', function () {
+      expect(users.endpoint).to.be.ok;
+    });
+    
     it('extends functionaly with custom method declarations', function () {
       expect(users.customMethod.toString()).to.equal(customMethod.toString());
     });
@@ -55,5 +67,14 @@ describe('Narrator', function () {
         done();
       });
     });
+  });
+  
+  it('returns the endpoint if it is already declared', function () {
+    var users = api.endpoint('users', {
+      customMethod: function () {}
+    });
+    var usersEndpoint = api.endpoint('users');
+    
+    expect(usersEndpoint).to.eql(users);
   });
 });

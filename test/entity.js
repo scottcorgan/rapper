@@ -54,6 +54,7 @@ describe('.entity', function () {
     var friends;
     
     beforeEach(function () {
+      console
       friends = user.endpoint('friends');
     });
     
@@ -67,10 +68,45 @@ describe('.entity', function () {
       expect(friend.url()).to.equal(user.url() + '/friends/456');
     });
     
-    it('handles infinitely nested routes', function () {
+    it.only('handles infinitely nested routes', function () {
+      var Narrator = require('../lib/narrator');
+      console.log('\n=======================\n\n');
+      
+      var api = new Narrator({
+        host: 'http://localhost:8000'
+      });
+      
+      var users = api.endpoint('users');
+      console.log('users:', users.url());
+      
+      var user = users.one(123);
+      console.log('user:', user.url());
+      
+      var friends = user.endpoint('friends');
+      console.log('friends:', friends.url());
+      
       var friend = friends.one(456);
-      var related = friend.endpoint('related');
-      expect(related.url()).to.equal(friend.url() + '/related');
+      console.log('friend:', friend.url());
+      
+      var families = friend.endpoint('families');
+      console.log('families:', families.url());
+      
+      var family = families.one(4312);
+      console.log('family:', family.url());
+      
+      console.log('\n\n=======================\n\n');
+      // console.log('\n', user.url());
+      // console.log('', friends.url());
+      // var friend = friends.one(456);
+      // console.log('', friend.url());
+      // var related = friend.endpoint('related');
+      // console.log('', related.url());
+      // var rel = related.one(4321);
+      // console.log('', rel.url());
+      // var relUsers = rel.endpoint('rel_users');
+      // console.log('', relUsers.url());
+      
+      // expect(related.url()).to.equal(friend.url() + '/related');
     });
   });
 });

@@ -8,6 +8,7 @@ describe('.endpoint', function() {
   beforeEach(function (done) {
     endpoint.host = stubServer.STUB_HOST;
     endpoint.path = '/users';
+    endpoint.pre = function (api, next) {next();};
     stubServer.server.start(done);
   });
   
@@ -56,6 +57,18 @@ describe('.endpoint', function() {
     
     it('sets the id', function () {
       expect(user.id).to.equal('123');
+    });
+    
+    it('passes the pre method from the parent', function () {
+      expect(user.pre).to.be.ok;
+    });
+    
+    it('passes the headers', function () {
+      expect(user.headers).to.be.ok;
+    });
+    
+    it.skip('passes #endpoint()', function () {
+      expect(user.endpoint).to.be.ok;
     });
   });
 });

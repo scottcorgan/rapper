@@ -45,7 +45,7 @@ describe('http', function () {
   
   it('makes an http request with custom headers', function (done) {
     http.setHeaders(stubServer.HEADERS);
-    http._request(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
+    http.request(stubServer.STUB_HOST, 'GET', {}, function (err, response, body) {
       expect(body.headers.authorization).to.equal('token');
       done();
     });
@@ -57,8 +57,22 @@ describe('http', function () {
     });
   });
   
-  it('allows options to be otional for _request', function (done) {
-    http._request(stubServer.STUB_HOST, 'GET', function () {
+  it('allows options to be otional for request', function (done) {
+    http.request(stubServer.STUB_HOST, 'GET', function () {
+      done();
+    });
+  });
+  
+  it('executes the pre hook if defined', function (done) {
+    var preHookCalled = false;
+    
+    http.pre = function (endpoint, next) {
+      preHookCalled = true;
+      next();
+    };
+    
+    http.request(stubServer.STUB_HOST, 'GET', function () {
+      expect(preHookCalled).to.be.ok;
       done();
     });
   });
