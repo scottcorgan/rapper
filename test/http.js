@@ -40,6 +40,18 @@ describe('#Http()', function () {
     });
   });
   
+  it('adds an individual header', function () {
+    this.http.setHeader('header', 'headerValue');
+    expect(this.http.options.headers.header).to.equal('headerValue');
+  });
+  
+  it('removes an individual header', function () {
+    this.http.setHeader('header', 'headerValue');
+    expect(this.http.options.headers.header).to.equal('headerValue');
+    this.http.removeHeader('header');
+    expect(this.http.options.headers.header).to.not.be.defined;
+  });
+  
   it('parses JSON or not', function () {
     expect(this.http._parseJSON('{"key":"value"}')).to.eql({
       key: 'value'
