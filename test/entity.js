@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var extend = require('lodash.assign');
 var Entity = require('../lib/entity');
 var Http = require('../lib/http');
 var stubServer = require('./stubs/server');

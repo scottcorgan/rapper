@@ -1,6 +1,6 @@
 {
   "name": "narrator",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Construct wrappers around api RESTful endpoints",
   "main": "lib/narrator.js",
   "scripts": {
@@ -22,9 +22,8 @@
     "url": "https://github.com/scottcorgan/narrate/issues"
   },
   "dependencies": {
+    "lodash": "~2.2.1",
     "request": "~2.27.0",
-    "lodash.defaults": "~2.2.1",
-    "lodash.assign": "~2.2.1",
     "url-join": "0.0.1"
   },
   "devDependencies": {
