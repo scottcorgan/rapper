@@ -1,11 +1,12 @@
 {
   "name": "narrator",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Construct wrappers around api RESTful endpoints",
   "main": "lib/narrator.js",
   "scripts": {
-    "pretest": "grunt build && node_modules/.bin/jshint lib/",
-    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test"
+    "pretest": "node_modules/.bin/jshint lib/",
+    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test",
+    "posttest": "grunt build"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,8 @@
     "request": "~2.27.0",
     "url-join": "0.0.1",
     "extend": "~1.2.1",
-    "browser-request": "~0.3.1"
+    "browser-request": "~0.3.1",
+    "reqwest": "~0.9.3"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
@@ -42,6 +44,6 @@
     "grunt-browserify": "~1.2.11"
   },
   "browser": {
-    "request": "browser-request"
+    "request": "./lib/core/browser_http.js"
   }
 }
