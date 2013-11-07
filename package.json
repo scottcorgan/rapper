@@ -1,10 +1,12 @@
 {
   "name": "narrator",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Construct wrappers around api RESTful endpoints",
   "main": "lib/narrator.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test"
+    "pretest": "grunt build && node_modules/.bin/jshint lib/",
+    "test": "node_modules/.bin/mocha --recursive --reporter spec ./test",
+    "prepublish": "grunt build"
   },
   "repository": {
     "type": "git",
@@ -22,14 +24,25 @@
     "url": "https://github.com/scottcorgan/narrate/issues"
   },
   "dependencies": {
-    "lodash": "~2.2.1",
     "request": "~2.27.0",
-    "url-join": "0.0.1"
+    "url-join": "0.0.1",
+    "extend": "~1.2.1"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
     "mocksy": "~0.1.4",
-    "sinon": "~1.7.3"
+    "sinon": "~1.7.3",
+    "jshint": "~2.3.0",
+    "http-browserify": "~0.1.13",
+    "browserify": "~2.35.1",
+    "colors": "~0.6.2",
+    "browser-request": "~0.3.1",
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.5",
+    "grunt-browserify": "~1.2.11"
+  },
+  "browser": {
+    "request": "browser-request"
   }
 }
