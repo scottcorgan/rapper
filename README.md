@@ -39,7 +39,8 @@ users.list(function (err, usersList) {
 
 // OR
 
-users.create({name: 'frank'}, function (err, response) {
+// With promises
+users.create({name: 'frank'}).then(function (response) {
   // User created
 });
 
@@ -51,6 +52,7 @@ users.customMethod();
 
 var user = users.one(123);
 user.get(function (err, userData) {
+
 });
 ```
 
