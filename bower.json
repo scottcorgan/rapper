@@ -6,7 +6,7 @@
     "Scott Corgan <scottcorgan@gmail.com>"
   ],
   "description": "Construct wrappers around api RESTful endpoints",
-  "main": "dist/narrator.js",
+  "main": "dist/narrator.standalone.min.js",
   "keywords": [
     "api",
     "restful",
