@@ -1,11 +1,19 @@
 # Narrator
 
-Build api wrappers around RESTful endpoints.
+Build api wrappers around RESTful endpoints. Now compatible with [Browserify](https://github.com/substack/node-browserify)!
 
 ## Install
 
+On the server
+
 ```
 npm install narrator --save
+```
+
+In the browser
+
+```
+bower install narrator --save
 ```
 
 ## Usage
