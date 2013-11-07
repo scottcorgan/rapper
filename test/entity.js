@@ -36,6 +36,10 @@ describe('#Entity()', function () {
     });
   });
   
+  it('returns a promise when getting an item', function () {
+    expect(this.entity.get()).to.have.key('then');
+  });
+  
   it('udpates the current resource', function (done) {
     this.entity.update({ name: 'olga' }, function (err, response) {
       expect(err).to.equal(null);
@@ -45,12 +49,20 @@ describe('#Entity()', function () {
     });
   });
   
+  it('returns a promise when updating an item', function () {
+    expect(this.entity.update()).to.have.key('then');
+  });
+  
   it('performs a DELETE request to remove the current resource', function (done) {
     this.entity.remove(function (err, response) {
       expect(err).to.equal(null);
       expect(response.method).to.equal('DELETE');
       done();
     });
+  });
+  
+  it('returns a promise when you remove an item', function () {
+    expect(this.entity.remove()).to.have.key('then');
   });
   
   it('gets an endpoint by the path', function () {

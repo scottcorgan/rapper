@@ -32,6 +32,10 @@ describe('#Endpoint()', function () {
     });
   });
   
+  it('returns a promise when listing an endpoing', function () {
+    expect(this.endpoint.list()).to.have.key('then');
+  });
+  
   it('preforms a POST request to the endpoint to create a new resource item', function (done) {
     var body = {
       name: 'frank'
@@ -42,6 +46,10 @@ describe('#Endpoint()', function () {
       expect(response.body).to.eql(body);
       done();
     });
+  });
+  
+  it('returns a promise when creating a new itme', function () {
+    expect(this.endpoint.create()).to.have.key('then');
   });
   
   it('has an instance of Http', function () {

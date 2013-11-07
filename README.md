@@ -18,6 +18,22 @@ bower install narrator --save
 
 ## Usage
 
+All methods return a promise or allow you to provide a callback. For example:
+
+```javascript
+api.endpoint('users').list().then(function (users) {
+  
+}, function (err) {
+  
+});
+
+// OR
+
+api.endpoint('users').list(function (err, users) {
+  
+});
+```
+
 ```javascript
 var Narrator = require('narrator');
 

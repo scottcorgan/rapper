@@ -81,6 +81,17 @@ describe('#Http()', function () {
     });
   });
   
+  it('returns a promise when making a raw request', function () {
+    var promise = this.http._http(stubServer.STUB_HOST, 'GET');
+    console.log(promise);
+    expect(promise).to.have.key('then');
+  });
+  
+  it('returns a promise when making a request', function () {
+    var promise = this.http.request(stubServer.STUB_HOST, 'GET');
+    expect(promise).to.have.key('then');
+  });
+  
   it('allows options to be options for #_http()', function (done) {
     this.http._http(stubServer.STUB_HOST, 'GET', function () {
       done();
