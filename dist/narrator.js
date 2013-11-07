@@ -305,7 +305,7 @@ Http.prototype.request = function (path, method, options, callback) {
       var preHook = (self.options.hooks && self.options.hooks.pre) ? self.options.hooks.pre : function (next) { next(); };
       
       preHook.call(self.options.context, function () {
-        self._http(path, method, httpOptions, callback);//.then(resolve, reject);
+        self._http(path, method, httpOptions, callback).then(resolve, reject);
       });
     });
   });
