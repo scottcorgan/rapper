@@ -22,6 +22,9 @@
     "tests",
     "lib",
     "examples",
-    "spike"
+    "spike",
+    "Gruntfile.js",
+    ".gitignore",
+    "package.json"
   ]
 }
