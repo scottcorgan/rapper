@@ -28,10 +28,18 @@ module.exports = function(grunt) {
         src: 'dist/narrator.standalone.js',
         dest: 'dist/narrator.standalone.min.js'
       }
+    },
+    
+    watch: {
+      build: {
+        files: 'lib/**/*.js',
+        tasks: ['build']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
 
   grunt.registerTask('build', ['browserify', 'uglify']);

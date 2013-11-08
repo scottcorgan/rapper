@@ -3,6 +3,7 @@ var Endpoint = require('../lib/endpoint');
 var Entity = require('../lib/entity');
 var Http = require('../lib/http');
 var stubServer = require('./stubs/server');
+var Narrator = require('../lib/narrator');
 
 describe('#Endpoint()', function () {
   
@@ -11,7 +12,8 @@ describe('#Endpoint()', function () {
     this.endpoint = new Endpoint({
       host: stubServer.STUB_HOST,
       path: '/endpoint',
-      headers: stubServer.HEADERS
+      headers: stubServer.HEADERS,
+      api: new Narrator()
     });
     
     stubServer.server.start(done);
@@ -57,7 +59,9 @@ describe('#Endpoint()', function () {
   });
   
   it('sets up a default pre hook', function () {
-    var endpoint = new Endpoint();
+    var endpoint = new Endpoint({
+      api: new Narrator()
+    });
     expect(endpoint.hooks.pre).to.be.ok;
   });
   
@@ -65,7 +69,8 @@ describe('#Endpoint()', function () {
     var endpoint = new Endpoint({
       _endpoints: {
         test: 'endpoint'
-      }
+      },
+      api: new Narrator()
     });
     
     var testEndpoint = endpoint.getEndpoint('test');

@@ -83,7 +83,6 @@ describe('#Http()', function () {
   
   it('returns a promise when making a raw request', function () {
     var promise = this.http._http(stubServer.STUB_HOST, 'GET');
-    console.log(promise);
     expect(promise).to.have.key('then');
   });
   
