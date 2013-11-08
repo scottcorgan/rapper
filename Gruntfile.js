@@ -16,6 +16,14 @@ module.exports = function(grunt) {
         options: {
           standalone: 'Narrator'
         }
+      },
+      angular: {
+        files: {
+          'dist/narrator.angular.js': ['lib/browser/narrator_angular.js'],
+        },
+        options: {
+          ignore: ['promise', 'request'],
+        }
       }
     },
     
@@ -27,7 +35,11 @@ module.exports = function(grunt) {
       standalone: {
         src: 'dist/narrator.standalone.js',
         dest: 'dist/narrator.standalone.min.js'
-      }
+      },
+      angular: {
+        src: 'dist/narrator.angular.js',
+        dest: 'dist/narrator.angular.min.js'
+      },
     },
     
     watch: {

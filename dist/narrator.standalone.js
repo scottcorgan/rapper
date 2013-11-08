@@ -159,7 +159,6 @@ Entity.prototype.endpoint = function (path, customMethods) {
     host: this.url(),
     headers: this.options.headers,
     _endpoints: this.options._endpoints
-    // $q: this.options.api.options.$q
   });
   return api.endpoint(path, customMethods);
 };
@@ -259,6 +258,12 @@ Http.prototype._parseJSON = function (data) {
   }
 };
 
+Http.prototype._promiseWrap = function (callback) {
+  return new Promise(callback);
+};
+
+Http.prototype._request = request;
+
 Http.prototype._http = function (path, method, options, callback) {
   var self = this;
   
@@ -277,8 +282,8 @@ Http.prototype._http = function (path, method, options, callback) {
   };
   
   requestOptions = defaults(options, requestOptions);
-  return this.promise(function (resolve, reject) {
-    request(requestOptions, function (err, response, body) {
+  return this._promiseWrap(function (resolve, reject) {
+    self._request(requestOptions, function (err, response, body) {
       var responseBody = self._parseJSON(body);
       
       if (err) {
@@ -313,7 +318,7 @@ Http.prototype.request = function (path, method, options, callback) {
     method: method
   });
   
-  return this.promise(function (resolve, reject) {
+  return this._promiseWrap(function (resolve, reject) {
     // TODO: pass current api context (api, users, etc)
     process.nextTick(function () {
       var preHook = (self.options.hooks && self.options.hooks.pre) ? self.options.hooks.pre : function (next) { next(); };
@@ -338,6 +343,8 @@ var Narrator = module.exports = function (options) {
   extend(this, options);
 };
 
+Narrator.Http = require('./http');
+
 // Placed here because of circular dependency stuff
 var Endpoint = require('./endpoint');
 
@@ -360,7 +367,7 @@ Narrator.prototype.endpoint = function (path, userDefined) {
   return this._endpoints[pathKey];
 };
 
-},{"./endpoint":2,"extend":8,"promise":10,"url-join":13}],7:[function(require,module,exports){
+},{"./endpoint":2,"./http":5,"extend":8,"promise":10,"url-join":13}],7:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
