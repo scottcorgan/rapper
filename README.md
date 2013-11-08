@@ -58,6 +58,22 @@ user.get(function (err, userData) {
 
 Also, see [Narrator Examples](https://github.com/scottcorgan/narrator/tree/master/examples)
 
+## Angular Module
+
+```javascript
+angular.module('myApp', ['narrator'])
+  .config(function (narratorProvider) {
+    narratorProvider.configure({
+      host: 'http://someapi.com',
+      headers: {}
+      // etc. Supports all $http config options
+    });
+  }).controller('SomeCtrl', function ($scope, narrator) {
+    
+    $scope.users = narrator.endpoint('users').list();
+    
+  });
+```
 
 ## Promises or Callbacks
 
