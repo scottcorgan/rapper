@@ -1,6 +1,6 @@
 # Narrator
 
-Build api wrappers around RESTful endpoints. Now compatible with [Browserify](https://github.com/substack/node-browserify)!
+Build api wrappers around RESTful endpoints. Now compatible with AngularJS and [Browserify](https://github.com/substack/node-browserify)!
 
 ## Install
 

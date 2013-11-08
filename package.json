@@ -1,7 +1,7 @@
 {
   "name": "narrator",
   "version": "0.5.11",
-  "description": "Construct wrappers around api RESTful endpoints",
+  "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "lib/narrator.js",
   "scripts": {
     "pretest": "node_modules/.bin/jshint lib/",

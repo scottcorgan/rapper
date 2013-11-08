@@ -5,7 +5,7 @@
   "authors": [
     "Scott Corgan <scottcorgan@gmail.com>"
   ],
-  "description": "Construct wrappers around api RESTful endpoints",
+  "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "dist/narrator.standalone.min.js",
   "keywords": [
     "api",
