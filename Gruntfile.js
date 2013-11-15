@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    
+
     browserify: {
       commonjs: {
         files: {
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     uglify: {
       commonjs: {
         src: 'dist/narrator.js',
@@ -41,7 +41,19 @@ module.exports = function(grunt) {
         dest: 'dist/narrator.angular.min.js'
       },
     },
-    
+
+    complexity: {
+      generic: {
+        src: ['lib/http.js'],
+        options: {
+          errorsOnly: false, // show only maintainability errors
+          cyclomatic: 3,
+          halstead: 8,
+          maintainability: 80
+        }
+      }
+    },
+
     watch: {
       build: {
         files: 'lib/**/*.js',
@@ -53,8 +65,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-complexity');
 
   grunt.registerTask('build', ['browserify', 'uglify']);
-  
-
 };
