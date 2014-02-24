@@ -13,8 +13,35 @@ describe('#Narrator()', function () {
     this.api = new Narrator(narratorOptions);
   });
   
-  it('instantiates Narrator with an _endpoints collection', function () {
-    expect(this.api._endpoints).to.eql({});
+  it('exposes an http request function', function () {
+    expect(this.api._request).to.not.equal(undefined);
+  });
+  
+  describe('promise creator', function() {
+    it('provides a promise creator function', function () {
+      expect(this.api.createPromise).to.not.equal(undefined);
+    });
+    
+    it('creates a promise', function () {
+      var promise = this.api.createPromise(function () {});
+      expect(promise.then).to.not.equal(undefined);
+    });
+    
+    it('resolves a promise', function (done) {
+      var promise = this.api.createPromise(function (resolve, reject) {
+        resolve();
+      });
+      
+      promise.then(done);
+    });
+    
+    it('rejects a promise', function (done) {
+      var promise = this.api.createPromise(function (resolve, reject) {
+        reject();
+      });
+      
+      promise.then(function () {}, done);
+    });
   });
   
   it('instantiates Narrator with a host', function () {

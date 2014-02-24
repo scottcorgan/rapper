@@ -340,6 +340,11 @@ var Narrator = module.exports = function (options) {
   this.host = '/';
   
   extend(this, options);
+  
+  // FIXME: This is a hacky to expose some features
+  var http = this.endpoint('').http;
+  this._request = http._http;
+  this.createPromise = http._promiseWrap;
 };
 
 Narrator.Http = require('./http');
