@@ -42,19 +42,6 @@ angular.module('narrator', [])
     var asQ = require('./asQ');
     var asHttp = require('./asHttp');
     
-    Narrator.prototype._xhr = {};
-    
-    // Add support for special xhr cases
-    Narrator.prototype.withCredentials = function (_withCreds) {
-      this.xhr('withCredentials', _withCreds);
-      return this;
-    };
-    
-    Narrator.prototype.xhr = function (key, value) {
-      this._xhr[key] = value;
-      return this;
-    };
-    
     return {
       _options: {},
       
@@ -399,6 +386,7 @@ var Promise = require('promise');
 var Narrator = module.exports = function (options) {
   options = options || {};
   
+  this._xhr = {};
   this._endpoints = {};
   this.host = '/';
   
@@ -434,6 +422,16 @@ Narrator.prototype.endpoint = function (path, userDefined) {
   return this._endpoints[pathKey];
 };
 
+// Add support for special xhr cases
+Narrator.prototype.withCredentials = function (_withCreds) {
+  this.xhr('withCredentials', _withCreds);
+  return this;
+};
+
+Narrator.prototype.xhr = function (key, value) {
+  this._xhr[key] = value;
+  return this;
+};
 },{"./endpoint":4,"./http":7,"extend":11,"promise":9,"url-join":12}],9:[function(require,module,exports){
 
 },{}],10:[function(require,module,exports){

@@ -336,6 +336,7 @@ var Promise = require('promise');
 var Narrator = module.exports = function (options) {
   options = options || {};
   
+  this._xhr = {};
   this._endpoints = {};
   this.host = '/';
   
@@ -371,6 +372,16 @@ Narrator.prototype.endpoint = function (path, userDefined) {
   return this._endpoints[pathKey];
 };
 
+// Add support for special xhr cases
+Narrator.prototype.withCredentials = function (_withCreds) {
+  this.xhr('withCredentials', _withCreds);
+  return this;
+};
+
+Narrator.prototype.xhr = function (key, value) {
+  this._xhr[key] = value;
+  return this;
+};
 },{"./endpoint":2,"./http":5,"extend":8,"promise":10,"url-join":13}],7:[function(require,module,exports){
 // shim for using process in browser
 
