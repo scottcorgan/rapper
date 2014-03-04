@@ -75,7 +75,9 @@ angular.module('myApp', ['narrator'])
   });
 ```
 
-The Angular module provides special methods to set custom xhr arguments. The conform to the [$http](http://docs.angularjs.org/api/ng/service/$http#usage) arguments usage.
+### XHR Arguments
+
+The Angular module provides special methods to set custom xhr arguments. They conform to the [$http](http://docs.angularjs.org/api/ng/service/$http#usage) arguments usage.
 
 ```js
 angular.module('myApp')
