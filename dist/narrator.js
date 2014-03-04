@@ -336,7 +336,6 @@ var Promise = require('promise');
 var Narrator = module.exports = function (options) {
   options = options || {};
   
-  this._xhr = {};
   this._endpoints = {};
   this.host = '/';
   
@@ -373,6 +372,8 @@ Narrator.prototype.endpoint = function (path, userDefined) {
 };
 
 // Add support for special xhr cases
+Narrator.prototype._xhr = {};
+
 Narrator.prototype.withCredentials = function (_withCreds) {
   this.xhr('withCredentials', _withCreds);
   return this;
