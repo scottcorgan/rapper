@@ -75,6 +75,20 @@ angular.module('myApp', ['narrator'])
   });
 ```
 
+The Angular module provides special methods to set custom xhr arguments. The conform to the [$http](http://docs.angularjs.org/api/ng/service/$http#usage) arguments usage.
+
+```js
+angular.module('myApp')
+  .controller('SomeController', function ($scope, narrator) {
+    
+    narrator.withCredentials(true);
+    
+    // or
+    narrator.xhr('withCredentials', true);
+    
+  });
+```
+
 ## Promises or Callbacks
 
 All methods return a promise or allow you to provide a callback. For example:

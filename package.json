@@ -1,6 +1,6 @@
 {
   "name": "narrator",
-  "version": "0.5.12",
+  "version": "0.6.0",
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "lib/narrator.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "devDependencies": {
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
-    "mocksy": "~0.1.4",
+    "mocksy": "0.1.x",
     "sinon": "~1.7.3",
     "jshint": "~2.3.0",
     "http-browserify": "~0.1.13",

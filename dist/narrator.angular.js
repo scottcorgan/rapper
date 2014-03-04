@@ -3,6 +3,9 @@ module.exports = function (Http, $http) {
   Http.prototype._request = function (options, callback) {
     options.data = options.data || options.form;
     
+    // Add any special xhr fields
+    angular.extend(options, this.options.context.options.api._xhr);
+    
     $http(options)
       .success(function (data) {
         var body = data.self || data;
@@ -38,6 +41,19 @@ angular.module('narrator', [])
     var Http = require('../http');
     var asQ = require('./asQ');
     var asHttp = require('./asHttp');
+    
+    Narrator.prototype._xhr = {};
+    
+    // Add support for special xhr cases
+    Narrator.prototype.withCredentials = function (_withCreds) {
+      this.xhr('withCredentials', _withCreds);
+      return this;
+    };
+    
+    Narrator.prototype.xhr = function (key, value) {
+      this._xhr[key] = value;
+      return this;
+    };
     
     return {
       _options: {},
