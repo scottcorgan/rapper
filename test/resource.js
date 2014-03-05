@@ -39,6 +39,17 @@ describe('defining resources', function() {
     expect(resource.url(true)).to.equal(resource.api.attributes.host + '/resource');
   });
   
+  it('adds custom method', function () {
+    var resource = api.resource('resource', {
+      finish: function () {
+        called = true;
+      }
+    });
+    
+    resource.finish();
+    expect(called).to.equal(true);
+  });
+  
   describe('a resource for a single item', function () {
     var resource;
     
@@ -97,7 +108,19 @@ describe('defining resources', function() {
           done();
         });
       });
-    })
+    });
+    
+    it('adds custom method', function () {
+      var called = false;
+      var single = resource.one(123, {
+        finish: function () {
+          called = true;
+        }
+      });
+      
+      single.finish();
+      expect(called).to.equal(true);
+    });
   });
 });
 
