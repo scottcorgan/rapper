@@ -26,7 +26,8 @@
     "httpify": "0.2.x",
     "promise": "4.0.x",
     "extend": "1.2.x",
-    "slasher": "0.1.x"
+    "slasher": "0.1.x",
+    "qmap": "0.2.x"
   },
   "devDependencies": {
     "mocksy": "0.1.x",

@@ -224,6 +224,48 @@ describe('defining resources', function() {
       });
     });
   });
+
+  describe('before and after hooks', function () {
+    it('runs a queue of functions before it makes the resource request', function (done) {
+      var called1 = false;
+      var called2 = false;
+      var url;
+      var resource = api.resource('resource');
+      
+      resource.before(function (done) {
+        called1 = true;
+        url = this.url();
+        done();
+      }, function (done) {
+        called2 = true;
+        done();
+      });
+      
+      resource.get().then(function () {
+        expect(url).to.equal(resource.url());
+        expect(called1).to.equal(true);
+        expect(called2).to.equal(true);
+        done();
+      });
+    });
+    
+    it('sends an error to the callback if the before queue gives an error', function (done) {
+      var called = false;
+      var resource = api.resource('resource');
+      resource.before(function (done) {
+        done('error');
+      }, function (done) {
+        called = true;
+        done();
+      });
+      
+      resource.get().then(function () {}, function (err) {
+        expect(err).to.equal('error');
+        expect(called).to.equal(false);
+        done();
+      });
+    });
+  });
 });
 
 describe('nested resources', function () {

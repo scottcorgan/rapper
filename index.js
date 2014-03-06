@@ -50,6 +50,7 @@ Rapper.prototype.xhr = function (key, value) {
 };
 
 Rapper.prototype._http = function (url, method, options) {
+  var resource = this.resources[url];
   var requestOptions = {
     url: this._buildUrl(url, true),
     method: method,
@@ -61,23 +62,28 @@ Rapper.prototype._http = function (url, method, options) {
   }, this.xhrs, options);
   
   return this.promise(function (resolve, reject) {
-    request(requestOptions, function (err, response, body) {
-      if (err || response.statusCode >= 300 || response.status >= 300) {
-        reject(err || response);
-      }
-      else{
-        body = JSON.parse(body);
-        resolve(body);
-      }
+    if (!resource) return makeRequest();
+    
+    // Run all "before" functions
+    resource.beforeQueue.drain(function (err) {
+      if (err) return reject(err);
+      makeRequest();
     });
+  
+    function makeRequest () {
+      request(requestOptions, function (err, response, body) {
+        if (err || response.statusCode >= 300 || response.status >= 300) returnreject(err || response);
+        resolve(JSON.parse(body));
+      });
+    }
   });
 };
 
 // Add helper methods
 Rapper.httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 Rapper.httpMethods.forEach(function (method) {
-  Rapper.prototype[method.toLowerCase()] = function (url, options) {
-    return this._http(url, method, options);
+  Rapper.prototype[method.toLowerCase()] = function (url, options, resource) {
+    return this._http(url, method, options, resource);
   };
 });
 
