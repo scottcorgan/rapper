@@ -1,8 +1,8 @@
 {
-  "name": "narrator",
+  "name": "rapper",
   "version": "0.7.0",
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
-  "main": "lib/narrator.js",
+  "main": "index.js",
   "scripts": {
     "test": "npm run lint && node_modules/.bin/mocha ./test",
     "lint": "node_modules/.bin/jshint lib/ index.js --verbose --show-non-errors",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/scottcorgan/narrate.git"
+    "url": "https://github.com/scottcorgan/rapper.git"
   },
   "keywords": [
     "api",
@@ -23,7 +23,7 @@
   "author": "Scott Corgan",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/scottcorgan/narrate/issues"
+    "url": "https://github.com/scottcorgan/rapper/issues"
   },
   "dependencies": {
     "httpify": "0.2.x",
