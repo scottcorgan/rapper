@@ -1,10 +1,10 @@
 {
   "name": "narrator",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "lib/narrator.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec ./test",
+    "test": "node_modules/.bin/mocha ./test",
     "build": "node_modules/.bin/jshint lib/ && grunt build"
   },
   "repository": {
@@ -32,8 +32,5 @@
     "mocksy": "0.1.x",
     "mocha": "1.17.x",
     "expect.js": "0.3.x"
-  },
-  "browser": {
-    "request": "./lib/core/browser_http.js"
   }
 }

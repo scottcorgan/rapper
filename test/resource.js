@@ -50,6 +50,52 @@ describe('defining resources', function() {
     expect(called).to.equal(true);
   });
   
+  describe('custom xhr fields', function () {
+    var resource;
+    
+    beforeEach(function () {
+      resource = api.resource('resource');
+    });
+    
+    it('sets and uses custom xhr fields', function () {
+      resource.xhr('withCredentials', true);
+      expect(resource.xhr('withCredentials')).to.equal(true);
+    });
+    
+    it('uses the custom xhr fields in GET requests', function (done) {
+      resource.xhr('method', 'POST');
+      resource.get().then(function (res) {
+        expect(res.method.toLowerCase()).to.equal('post');
+        done();
+      });
+    });
+    
+    it('uses the custom xhr fields in POST requests', function (done) {
+      resource.xhr('method', 'GET');
+      resource.post({}).then(function (res) {
+        expect(res.method.toLowerCase()).to.equal('get');
+        done();
+      });
+    });
+    
+    it('uses the global custom xhr fields in resource request', function (done) {
+      api.xhr('method', 'POST');
+      resource.get().then(function (res) {
+        expect(res.method.toLowerCase()).to.equal('post');
+        done();
+      });
+    });
+    
+    it('overrides the global custom xhr fields with resource specific custom xhr fields', function (done) {
+      api.xhr('method', 'POST');
+      resource.xhr('method', 'PUT');
+      resource.get().then(function (res) {
+        expect(res.method.toLowerCase()).to.equal('put');
+        done();
+      });
+    });
+  });
+  
   describe('a resource for a single item', function () {
     var resource;
     
@@ -120,6 +166,62 @@ describe('defining resources', function() {
       
       single.finish();
       expect(called).to.equal(true);
+    });
+    
+    describe('custom xhr fields', function () {
+      var resource;
+      var single
+      
+      beforeEach(function () {
+        resource = api.resource('resource');
+        single = resource.one(123);
+      });
+      
+      it('sets and uses custom xhr fields', function () {
+        single.xhr('withCredentials', true);
+        expect(single.xhr('withCredentials')).to.equal(true);
+      });
+      
+      it('uses the custom xhr fields in GET requests', function (done) {
+        single.xhr('method', 'POST');
+        single.get().then(function (res) {
+          expect(res.method.toLowerCase()).to.equal('post');
+          done();
+        });
+      });
+      
+      it('uses the custom xhr fields in PUT requests', function (done) {
+        single.xhr('method', 'GET');
+        single.put({}).then(function (res) {
+          expect(res.method.toLowerCase()).to.equal('get');
+          done();
+        });
+      });
+      
+      it('uses the custom xhr fields in DELETE requests', function (done) {
+        single.xhr('method', 'GET');
+        single.del().then(function (res) {
+          expect(res.method.toLowerCase()).to.equal('get');
+          done();
+        });
+      });
+      
+      it('uses the global custom xhr fields in resource request', function (done) {
+        api.xhr('method', 'POST');
+        single.get().then(function (res) {
+          expect(res.method.toLowerCase()).to.equal('post');
+          done();
+        });
+      });
+      
+      it('overrides the global custom xhr fields with resource specific custom xhr fields', function (done) {
+        api.xhr('method', 'POST');
+        single.xhr('method', 'PUT');
+        single.get().then(function (res) {
+          expect(res.method.toLowerCase()).to.equal('put');
+          done();
+        });
+      });
     });
   });
 });

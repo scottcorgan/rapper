@@ -7,6 +7,7 @@ var slasher = require('slasher');
 var Rapper = function () {
   this.attributes = {};
   this.headers = {};
+  this.xhrs = {};
 };
 
 Rapper.prototype._setValue = function (key, value) {
@@ -36,6 +37,13 @@ Rapper.prototype.header = function (key, value) {
   return this;
 };
 
+Rapper.prototype.xhr = function (key, value) {
+  if (!value) return this.xhrs[key];
+  
+  this.xhrs[key] = value;
+  return this;
+};
+
 Rapper.prototype._http = function (url, method, options) {
   var requestOptions = {
     url: this._buildUrl(url, true),
@@ -45,7 +53,7 @@ Rapper.prototype._http = function (url, method, options) {
   
   extend(requestOptions, {
     headers: this.headers
-  }, options || {});
+  }, this.xhrs, options);
   
   return this.promise(function (resolve, reject) {
     request(requestOptions, function (err, response, body) {
@@ -61,8 +69,8 @@ Rapper.prototype._http = function (url, method, options) {
 };
 
 // Add helper methods
-Rapper._httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
-Rapper._httpMethods.forEach(function (method) {
+Rapper.httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
+Rapper.httpMethods.forEach(function (method) {
   Rapper.prototype[method.toLowerCase()] = function (url, options) {
     return this._http(url, method, options);
   };

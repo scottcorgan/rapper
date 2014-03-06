@@ -82,7 +82,7 @@ describe('basic http requests', function () {
   });
   
   describe('request types', function () {
-    Rapper._httpMethods.forEach(function (method) {
+    Rapper.httpMethods.forEach(function (method) {
       it('makes a ' + method + ' request', function (done) {
         
         // i.e. api.get(), api.post(), etc.
@@ -92,6 +92,21 @@ describe('basic http requests', function () {
           expect(res.url).to.equal('/endpoint');
           done();
         }, done);
+      });
+    });
+  });
+  
+  describe('global custom xhr fields', function () {
+    it('sets and uses custom xhr fields', function () {
+      api.xhr('withCredentials', true);
+      expect(api.xhrs.withCredentials).to.equal(true);
+    });
+    
+    it('uses the custom xhr fields in https requests', function (done) {
+      api.xhr('method', 'POST');
+      api.get('/test').then(function (res) {
+        expect(res.method.toLowerCase()).to.equal('post');
+        done();
       });
     });
   });
