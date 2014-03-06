@@ -9,6 +9,8 @@ var ENTRY_FILE = path.resolve(__dirname, '../index.js');
 var DIST_FILE = path.resolve(__dirname, '../dist/rapper.js');
 var DIST_FILE_MIN = path.resolve(__dirname, '../dist/rapper.min.js');
 
+console.log('Bundling ...');
+
 browserify(ENTRY_FILE)
   .bundle({
     standalone: 'Rapper'
@@ -17,9 +19,9 @@ browserify(ENTRY_FILE)
 
 function optimize () {
   var contents = fs.readFileSync(DIST_FILE, 'utf8');
-  
   fs.writeFileSync(DIST_FILE_MIN, contents);
   
+  console.log('Minifying ...\n')
   minify.optimize(DIST_FILE_MIN, {
     callback: function (minifiedContents) {
       fs.writeFileSync(DIST_FILE_MIN, minifiedContents);
