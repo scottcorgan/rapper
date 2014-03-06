@@ -4,7 +4,8 @@
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "lib/narrator.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test",
+    "test": "npm run lint && node_modules/.bin/mocha ./test",
+    "lint": "node_modules/.bin/jshint lib/ index.js --verbose --show-non-errors",
     "build": "npm run bundle-angular && npm run bundle-standalone",
     "bundle-angular": "build/angular.js",
     "bundle-standalone": "build/standalone.js"
@@ -37,6 +38,7 @@
     "expect.js": "0.3.x",
     "browserify": "3.32.x",
     "minify": "0.2.x",
-    "ngmin": "0.4.x"
+    "ngmin": "0.4.x",
+    "jshint": "2.4.x"
   }
 }

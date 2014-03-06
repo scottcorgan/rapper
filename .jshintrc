@@ -1,0 +1,23 @@
+{
+  "camelcase": true,
+  "curly": false,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "latedef": false,
+  "newcap": true,
+  "noarg": true,
+  "plusplus": true,
+  "quotmark": "single",
+  "node": true,
+  "predef": [
+    "angular"
+  ],
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "maxparams": 4,
+  "maxstatements": 16,
+  "maxcomplexity": 10
+}

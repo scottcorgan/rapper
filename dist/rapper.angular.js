@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
 var request = require('httpify');
 var Promise = require('promise');
 var extend = require('extend');
@@ -95,7 +97,9 @@ Rapper.prototype.promise = function (resolver) {
 };
 
 module.exports = Rapper;
-},{"./lib/resource":3,"extend":7,"httpify":4,"promise":4,"slasher":13}],2:[function(require,module,exports){
+},{"./lib/resource":3,"extend":7,"httpify":4,"promise":4,"slasher":14}],2:[function(require,module,exports){
+'use strict';
+
 //
 // Prepares Rapper for use in AngularJS
 //
@@ -110,8 +114,7 @@ angular.module('rapper', [])
         this._host = host;
       },
       
-      $get: function ($rootScope, $q, $http, $timeout) {
-        var scope = $rootScope.$new();
+      $get: function ($q, $http) {
         var api = new Rapper(this._host);
         
         api._request = function (requestOptions) {
@@ -135,17 +138,19 @@ angular.module('rapper', [])
           callback(function (data) {
               d.resolve(data);
           }, function (err) {
-              d.reject(data);
+              d.reject(err);
           });
           
           return d.promise;
-        }
+        };
         
         return api;
       }
     };
   });
 },{"../../index.js":1}],3:[function(require,module,exports){
+'use strict';
+
 var extend = require('extend');
 var slasher = require('slasher');
 var path = require('path');
@@ -243,11 +248,13 @@ Resource._create = function (name, extensions, options) {
     api: api
   }, ext);
   
-  return api.resources[resource.url()] = resource;
+  api.resources[resource.url()] = resource;
+  
+  return resource;
 };
 
 module.exports = Resource;
-},{"extend":7,"path":6,"qmap":8,"slasher":13}],4:[function(require,module,exports){
+},{"extend":7,"path":6,"qmap":8,"slasher":14}],4:[function(require,module,exports){
 
 },{}],5:[function(require,module,exports){
 // shim for using process in browser
@@ -615,6 +622,7 @@ module.exports = function extend() {
 },{}],8:[function(require,module,exports){
 var flatten = require('flatten');
 var drainer = require('drainer');
+var isArguments = require('lodash.isarguments');
 
 var Qmap = function (context) {
   
@@ -635,7 +643,7 @@ Qmap.prototype.push = function () {
   
   // Handles any type of argument, include function's arguments variable
   flatten(args.map(function (arg) {
-    if (arg.callee) return [].slice.call(arg, 0);
+    if (isArguments(arg)) return [].slice.call(arg, 0);
     return arg;
   }))
     .forEach(function (arg) {
@@ -667,7 +675,7 @@ Qmap.prototype.drain = function () {
 };
 
 module.exports = Qmap;
-},{"drainer":9,"flatten":12}],9:[function(require,module,exports){
+},{"drainer":9,"flatten":12,"lodash.isarguments":13}],9:[function(require,module,exports){
 var asArray = require('as-array');
 
 var drainer = function(queue) {
@@ -737,6 +745,48 @@ module.exports = function flatten(list, depth) {
 };
 
 },{}],13:[function(require,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** `Object#toString` result shortcuts */
+var argsClass = '[object Arguments]';
+
+/** Used for native method references */
+var objectProto = Object.prototype;
+
+/** Used to resolve the internal [[Class]] of values */
+var toString = objectProto.toString;
+
+/**
+ * Checks if `value` is an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Objects
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is an `arguments` object, else `false`.
+ * @example
+ *
+ * (function() { return _.isArguments(arguments); })(1, 2, 3);
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  return value && typeof value == 'object' && typeof value.length == 'number' &&
+    toString.call(value) == argsClass || false;
+}
+
+module.exports = isArguments;
+
+},{}],14:[function(require,module,exports){
 var path = require('path');
 var join = path.join;
 var normalize = path.normalize;

@@ -1,3 +1,5 @@
+'use strict';
+
 var request = require('httpify');
 var Promise = require('promise');
 var extend = require('extend');

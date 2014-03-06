@@ -1,4 +1,6 @@
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Rapper=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+'use strict';
+
 var request = _dereq_('httpify');
 var Promise = _dereq_('promise');
 var extend = _dereq_('extend');
@@ -95,7 +97,9 @@ Rapper.prototype.promise = function (resolver) {
 };
 
 module.exports = Rapper;
-},{"./lib/resource":2,"extend":5,"httpify":6,"promise":10,"slasher":17}],2:[function(_dereq_,module,exports){
+},{"./lib/resource":2,"extend":5,"httpify":6,"promise":10,"slasher":18}],2:[function(_dereq_,module,exports){
+'use strict';
+
 var extend = _dereq_('extend');
 var slasher = _dereq_('slasher');
 var path = _dereq_('path');
@@ -193,11 +197,13 @@ Resource._create = function (name, extensions, options) {
     api: api
   }, ext);
   
-  return api.resources[resource.url()] = resource;
+  api.resources[resource.url()] = resource;
+  
+  return resource;
 };
 
 module.exports = Resource;
-},{"extend":5,"path":4,"qmap":12,"slasher":17}],3:[function(_dereq_,module,exports){
+},{"extend":5,"path":4,"qmap":12,"slasher":18}],3:[function(_dereq_,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1589,6 +1595,7 @@ module.exports = asap;
 },{"/Users/scott/www/modules/narrator/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":3}],12:[function(_dereq_,module,exports){
 var flatten = _dereq_('flatten');
 var drainer = _dereq_('drainer');
+var isArguments = _dereq_('lodash.isarguments');
 
 var Qmap = function (context) {
   
@@ -1609,7 +1616,7 @@ Qmap.prototype.push = function () {
   
   // Handles any type of argument, include function's arguments variable
   flatten(args.map(function (arg) {
-    if (arg.callee) return [].slice.call(arg, 0);
+    if (isArguments(arg)) return [].slice.call(arg, 0);
     return arg;
   }))
     .forEach(function (arg) {
@@ -1641,7 +1648,7 @@ Qmap.prototype.drain = function () {
 };
 
 module.exports = Qmap;
-},{"drainer":13,"flatten":16}],13:[function(_dereq_,module,exports){
+},{"drainer":13,"flatten":16,"lodash.isarguments":17}],13:[function(_dereq_,module,exports){
 var asArray = _dereq_('as-array');
 
 var drainer = function(queue) {
@@ -1711,6 +1718,48 @@ module.exports = function flatten(list, depth) {
 };
 
 },{}],17:[function(_dereq_,module,exports){
+/**
+ * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Build: `lodash modularize modern exports="npm" -o ./npm/`
+ * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <http://lodash.com/license>
+ */
+
+/** `Object#toString` result shortcuts */
+var argsClass = '[object Arguments]';
+
+/** Used for native method references */
+var objectProto = Object.prototype;
+
+/** Used to resolve the internal [[Class]] of values */
+var toString = objectProto.toString;
+
+/**
+ * Checks if `value` is an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Objects
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the `value` is an `arguments` object, else `false`.
+ * @example
+ *
+ * (function() { return _.isArguments(arguments); })(1, 2, 3);
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  return value && typeof value == 'object' && typeof value.length == 'number' &&
+    toString.call(value) == argsClass || false;
+}
+
+module.exports = isArguments;
+
+},{}],18:[function(_dereq_,module,exports){
 var path = _dereq_('path');
 var join = path.join;
 var normalize = path.normalize;
