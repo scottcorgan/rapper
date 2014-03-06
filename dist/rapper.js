@@ -5,34 +5,28 @@ var extend = _dereq_('extend');
 var Resource = _dereq_('./lib/resource');
 var slasher = _dereq_('slasher');
 
-var Rapper = function () {
+var Rapper = function (host) {
   this.attributes = {};
   this.headers = {};
   this.xhrs = {};
   this.resources = {};
+  
+  if (host) this.attributes.host = host;
 };
 
 Rapper.prototype._addResource = function (resource) {
   this.resources[resource.url()] = resource;
 };
 
-Rapper.prototype._setValue = function (key, value) {
-  this.attributes[key] = value;
-};
-
-Rapper.prototype._getValue = function (key) {
-  return this.attributes[key];
-};
-
 Rapper.prototype.host = function (host) {
-  if (!host) return this._getValue('host');
+  if (!host) return this.attributes.host;
   
-  this._setValue('host', host);
+  this.attributes.host = host;
   return this;
 };
 
 Rapper.prototype._buildUrl = function (url, withHost) {
-  if (withHost) return this._getValue('host') + slasher(url);
+  if (withHost) return this.attributes.host + slasher(url);
   return slasher(url);
 };
 

@@ -12,11 +12,6 @@ describe('Api wrapper set up', function () {
     done();
   });
   
-  it('has generic getter/setter methods', function () {
-    api._setValue('host', 'somehost.com');
-    expect(api._getValue('host')).to.equal('somehost.com');
-  });
-  
   it('sets and gets the host', function () {
     api.host('somehost.com');
     expect(api.host()).to.equal('somehost.com');
@@ -36,6 +31,11 @@ describe('Api wrapper set up', function () {
       expect(res).to.equal('yes');
       done();
     });
+  });
+  
+  it('sets the host on instantiation', function () {
+    var api = new Rapper('http://localhost:9999');
+    expect(api.host()).to.equal('http://localhost:9999');
   });
 });
 
