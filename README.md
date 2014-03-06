@@ -2,6 +2,8 @@
 
 Build api wrappers around RESTful endpoints. Now compatible with AngularJS and [Browserify](https://github.com/substack/node-browserify)!
 
+[![Build Status](https://travis-ci.org/scottcorgan/narrator.png)](https://travis-ci.org/scottcorgan/narrator)
+
 ## Install
 
 On the server
