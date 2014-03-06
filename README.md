@@ -211,8 +211,17 @@ Gets an endpoint by the endpoint pathname. If the endpoint you're getting is a s
 * ` name ` - the pathname of the endpoint
 * ` id ` - the id of the singular resource used when creating the path
 
+## Build
+
+All build files are written to the `dist` folder. Builds both the standalone and the Angular versions.
+
+```
+npm run build
+```
+
 ## Run Tests
 
 ```
+npm install
 npm test
 ```
