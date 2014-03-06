@@ -2,6 +2,8 @@
 
 Compose api wrappers around restful endpoints. Now compatible with AngularJS and [Browserify](https://github.com/substack/node-browserify)!
 
+**README in progress. Not all functionality works and is left over from previous build**
+
 [![Build Status](https://travis-ci.org/scottcorgan/rapper.png)](https://travis-ci.org/scottcorgan/rapper)
 
 ## Install

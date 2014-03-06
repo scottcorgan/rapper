@@ -1,12 +1,12 @@
-var Narrator = require('narrator');
+var Rapper = require('rapper');
 
-// Instantiate a new Narrator
-var api = new Narrator({
+// Instantiate a new Rapper
+var api = new Rapper({
   host: 'http://somehost.com'
 });
 
 // Create a new Endpoint with path: /users
-var users =  api.endpoint('users', {
+var users =  api.resource('users', {
   customUserMethod: (callback) {
     // Custom logic here
   }
@@ -14,11 +14,11 @@ var users =  api.endpoint('users', {
 
 var user = users.one(123); // Creates endpoint with path /users/123
 
-user.get(function (err, userData) {
+user.get().then(function (userData) {
   
 });
 
-user.remove(function (err, response) {
+user.remove().then(function (response) {
   // user removed
 });
 
@@ -26,8 +26,8 @@ user.remove(function (err, response) {
 // EASY!
 
 // Generates endpoint wiht path /users/123/friends
-var friends = user.endpoint('friends');
+var friends = user.resource('friends');
 
-friends.list(function (err, allFriends) {
+friends.list().then(function (allFriends) {
   
 });
