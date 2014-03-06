@@ -50,6 +50,7 @@ Rapper.prototype.xhr = function (key, value) {
 };
 
 Rapper.prototype._http = function (url, method, options) {
+  var self = this;
   var resource = this.resources[url];
   var requestOptions = {
     url: this._buildUrl(url, true),
@@ -61,21 +62,22 @@ Rapper.prototype._http = function (url, method, options) {
     headers: this.headers
   }, this.xhrs, options);
   
+  if (!resource) return this._request(requestOptions);
+  
   return this.promise(function (resolve, reject) {
-    if (!resource) return makeRequest();
-    
-    // Run all "before" functions
     resource.beforeQueue.drain(function (err) {
       if (err) return reject(err);
-      makeRequest();
+      self._request(requestOptions).then(resolve, reject);
     });
-  
-    function makeRequest () {
-      request(requestOptions, function (err, response, body) {
-        if (err || response.statusCode >= 300 || response.status >= 300) returnreject(err || response);
-        resolve(JSON.parse(body));
-      });
-    }
+  });
+};
+
+Rapper.prototype._request = function (requestOptions) {
+  return this.promise(function (resolve, reject) {
+    request(requestOptions, function (err, response, body) {
+      if (err || response.statusCode >= 300 || response.status >= 300) return reject(err || response);
+      resolve(JSON.parse(body));
+    });
   });
 };
 

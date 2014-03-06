@@ -5,7 +5,9 @@
   "main": "lib/narrator.js",
   "scripts": {
     "test": "node_modules/.bin/mocha ./test",
-    "build": "node_modules/.bin/jshint lib/ && grunt build"
+    "build": "npm run bundle-angular && npm run bundle-standalone",
+    "bundle-angular": "build/angular.js",
+    "bundle-standalone": "build/standalone.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,9 @@
   "devDependencies": {
     "mocksy": "0.1.x",
     "mocha": "1.17.x",
-    "expect.js": "0.3.x"
+    "expect.js": "0.3.x",
+    "browserify": "3.32.x",
+    "minify": "^0.2.6",
+    "ngmin": "^0.4.1"
   }
 }
