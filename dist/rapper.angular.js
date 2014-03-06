@@ -104,15 +104,15 @@ angular.module('rapper', [])
     var Rapper = require('../../index.js');
     
     return {
-      _options: {},
+      _host: {},
       
-      configure: function (options) {
-        this._options = options;
+      configure: function (host) {
+        this._host = host;
       },
       
       $get: function ($rootScope, $q, $http, $timeout) {
         var scope = $rootScope.$new();
-        var api = new Rapper();
+        var api = new Rapper(this._host);
         
         api._request = function (requestOptions) {
           var d = $q.defer();
