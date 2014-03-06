@@ -1,22 +1,22 @@
-var Narrator = require('narrator');
+var Rapper = require('rapper');
 
-// Instantiate a new Narrator
-var api = new Narrator({
+// Instantiate a new Rapper
+var api = new Rapper({
   host: 'http://somehost.com'
 });
 
 // Create a new Endpoint
-var users =  api.endpoint('users', {
+var users =  api.resource('users', {
   customUserMethod: (callback) {
     // Custom logic here
   }
 });
 
 // And then, some where else
-users.list(function (err, users) {
+users.list().then(function (users) {
   console.log(users);
 });
 
-users.create({name: 'frank'}, function (err, response) {
+users.create({name: 'frank'}).then(function (response) {
   // user created
 });
