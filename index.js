@@ -8,6 +8,11 @@ var Rapper = function () {
   this.attributes = {};
   this.headers = {};
   this.xhrs = {};
+  this.resources = {};
+};
+
+Rapper.prototype._addResource = function (resource) {
+  this.resources[resource.url()] = resource;
 };
 
 Rapper.prototype._setValue = function (key, value) {
@@ -77,13 +82,9 @@ Rapper.httpMethods.forEach(function (method) {
 });
 
 Rapper.prototype.resource = function (name, extensions) {
-  var ext = {};
-  extend(ext, Resource.many, extensions);
-  
-  return new Resource({
-    name: name,
-    api: this
-  }, ext);
+  return Resource._create(name, extensions, {
+    api: this,
+  });
 };
 
 Rapper.prototype.promise = function (resolver) {

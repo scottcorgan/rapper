@@ -131,6 +131,46 @@ describe('defining a resource', function () {
     expect(resource).to.not.equal(undefined);
   });
   
+  it('collects the created resource', function () {
+    var resource = api.resource('resource');
+    expect(api.resources['/resource']).to.eql(resource);
+  });
+  
+  it('collects nested resources in the api', function () {
+    var resource = api.resource('resource');
+    var nested = resource.resource('resource2');
+    expect(api.resources['/resource/resource2']).to.eql(nested);
+  });
+  
+  it('collects nested single resource in the api', function () {
+    var resource = api.resource('resource');
+    var nested = resource.one(123);
+    expect(api.resources['/resource/123']).to.eql(nested);
+  });
+  
+  it('returns the current resource if it is already defined', function () {
+    var r1 = api.resource('resource');
+    var r2 = api.resource('resource');
+    r1.xhr('method', 'POST');
+    expect(r1.xhrs).to.eql(r2.xhrs);
+  });
+  
+  it('returns the current nested single resource if it is already defined', function () {
+    var r1 = api.resource('resource');
+    var nested1 = r1.one(123);
+    var nested2 = r1.one(123);
+    nested1.xhr('method', 'POST');
+    expect(nested1.xhrs).to.eql(nested2.xhrs);
+  });
+  
+  it('returns the current nested single resource if it is already defined', function () {
+    var r1 = api.resource('resource');
+    var nested1 = r1.resource('resource1');
+    var nested2 = r1.resource('resource1');
+    nested1.xhr('method', 'POST');
+    expect(nested1.xhrs).to.eql(nested2.xhrs);
+  });
+  
   it('performs a http request to the resource', function (done) {
     var resource = api.resource('resource');
     resource.get().then(function (res) {
