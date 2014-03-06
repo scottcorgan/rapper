@@ -1,28 +1,30 @@
-# Narrator
+# Rapper
 
-Build api wrappers around RESTful endpoints. Now compatible with AngularJS and [Browserify](https://github.com/substack/node-browserify)!
+Compose api wrappers around restful endpoints. Now compatible with AngularJS and [Browserify](https://github.com/substack/node-browserify)!
+
+[![Build Status](https://travis-ci.org/scottcorgan/rapper.png)](https://travis-ci.org/scottcorgan/rapper)
 
 ## Install
 
 On the server
 
 ```
-npm install narrator --save
+npm install rapper --save
 ```
 
 In the browser
 
 ```
-bower install narrator --save
+bower install rapper --save
 ```
 
 ## Usage
 
 
 ```javascript
-var Narrator = require('narrator');
+var Rapper = require('rapper');
 
-var api = new Narrator({
+var api = new Rapper({
   host: 'http://someendpoint.com'
 });
 
@@ -56,21 +58,21 @@ user.get(function (err, userData) {
 });
 ```
 
-Also, see [Narrator Examples](https://github.com/scottcorgan/narrator/tree/master/examples)
+Also, see [Rapper Examples](https://github.com/scottcorgan/rapper/tree/master/examples)
 
 ## Angular Module
 
 ```javascript
-angular.module('myApp', ['narrator'])
-  .config(function (narratorProvider) {
-    narratorProvider.configure({
+angular.module('myApp', ['rapper'])
+  .config(function (rapperProvider) {
+	rapperProvider.configure({
       host: 'http://someapi.com',
       headers: {}
       // etc. Supports all $http config options
     });
-  }).controller('SomeCtrl', function ($scope, narrator) {
+  }).controller('SomeCtrl', function ($scope, rapper) {
     
-    $scope.users = narrator.endpoint('users').list();
+    $scope.users = rapper.endpoint('users').list();
     
   });
 ```
@@ -81,12 +83,12 @@ The Angular module provides special methods to set custom xhr arguments. They co
 
 ```js
 angular.module('myApp')
-  .controller('SomeController', function ($scope, narrator) {
+  .controller('SomeController', function ($scope, rapper) {
     
-    narrator.withCredentials(true);
+    rapper.withCredentials(true);
     
     // or
-    narrator.xhr('withCredentials', true);
+    rapper.xhr('withCredentials', true);
     
   });
 ```
@@ -211,8 +213,17 @@ Gets an endpoint by the endpoint pathname. If the endpoint you're getting is a s
 * ` name ` - the pathname of the endpoint
 * ` id ` - the id of the singular resource used when creating the path
 
+## Build
+
+All build files are written to the `dist` folder. Builds both the standalone and the Angular versions.
+
+```
+npm run build
+```
+
 ## Run Tests
 
 ```
+npm install
 npm test
 ```
