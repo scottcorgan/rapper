@@ -36,7 +36,7 @@
     "mocha": "1.17.x",
     "expect.js": "0.3.x",
     "browserify": "3.32.x",
-    "minify": "^0.2.6",
-    "ngmin": "^0.4.1"
+    "minify": "0.2.x",
+    "ngmin": "0.4.x"
   }
 }
