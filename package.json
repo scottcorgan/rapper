@@ -1,6 +1,6 @@
 {
   "name": "rapper",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "url": "https://github.com/scottcorgan/rapper/issues"
   },
   "dependencies": {
-    "httpify": "0.2.x",
+    "httpify": "0.3.x",
     "promise": "4.0.x",
     "extend": "1.2.x",
     "slasher": "0.1.x",
