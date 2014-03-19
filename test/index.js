@@ -33,6 +33,14 @@ describe('Api wrapper set up', function () {
     });
   });
   
+  it('wraps a value and returns it as a promise', function (done) {
+    var promise = api.asPromise(123);
+    promise.then(function (num) {
+      expect(num).to.equal(123);
+      done();
+    });
+  });
+  
   it('sets the host on instantiation', function () {
     var api = new Rapper('http://localhost:9999');
     expect(api.host()).to.equal('http://localhost:9999');

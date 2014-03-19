@@ -95,4 +95,12 @@ Rapper.prototype.promise = function (resolver) {
   return new Promise(resolver);
 };
 
+Rapper.prototype.asPromise = function (value) {
+  return this.promise(function (resolve) {
+    resolve(value);
+  });
+};
+
+
+
 module.exports = Rapper;
