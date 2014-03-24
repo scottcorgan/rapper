@@ -1,12 +1,12 @@
 {
-  "name": "narrator",
-  "version": "0.7.0",
-  "homepage": "https://github.com/scottcorgan/narrator",
+  "name": "rapper",
+  "version": "0.7.3",
+  "homepage": "https://github.com/scottcorgan/rapper",
   "authors": [
     "Scott Corgan <scottcorgan@gmail.com>"
   ],
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
-  "main": "dist/narrator.standalone.min.js",
+  "main": "dist/rapper.standalone.min.js",
   "keywords": [
     "api",
     "restful",
