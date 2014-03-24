@@ -101,6 +101,4 @@ Rapper.prototype.asPromise = function (value) {
   });
 };
 
-
-
 module.exports = Rapper;

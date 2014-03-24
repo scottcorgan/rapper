@@ -96,6 +96,12 @@ Rapper.prototype.promise = function (resolver) {
   return new Promise(resolver);
 };
 
+Rapper.prototype.asPromise = function (value) {
+  return this.promise(function (resolve) {
+    resolve(value);
+  });
+};
+
 module.exports = Rapper;
 },{"./lib/resource":2,"extend":5,"httpify":6,"promise":12,"slasher":20}],2:[function(_dereq_,module,exports){
 'use strict';

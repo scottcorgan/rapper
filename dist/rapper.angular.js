@@ -96,8 +96,14 @@ Rapper.prototype.promise = function (resolver) {
   return new Promise(resolver);
 };
 
+Rapper.prototype.asPromise = function (value) {
+  return this.promise(function (resolve) {
+    resolve(value);
+  });
+};
+
 module.exports = Rapper;
-},{"./lib/resource":3,"extend":7,"httpify":4,"promise":4,"slasher":14}],2:[function(require,module,exports){
+},{"./lib/resource":5,"extend":9,"httpify":6,"promise":6,"slasher":16}],2:[function(require,module,exports){
 'use strict';
 
 //
@@ -106,6 +112,8 @@ module.exports = Rapper;
 angular.module('rapper', [])
   .provider('rapper', function () {
     var Rapper = require('../../index.js');
+    var angularRequest = require('./angular.request');
+    var angularPromise = require('./angular.promise');
     
     return {
       _host: {},
@@ -117,38 +125,45 @@ angular.module('rapper', [])
       $get: function ($q, $http) {
         var api = new Rapper(this._host);
         
-        api._request = function (requestOptions) {
-          var d = $q.defer();
-          
-          if (requestOptions.form) requestOptions.data = requestOptions.form;
-          if (requestOptions.type) requestOptions.responseType = requestOptions.type;
-          
-          $http(requestOptions).success(function (res) {
-            d.resolve(res);
-          }).error(function (err) {
-            d.reject(err);
-          });
-          
-          return d.promise;
-        };
-        
-        api.promise = function (callback) {
-          var d = $q.defer();
-          
-          callback(function (data) {
-              d.resolve(data);
-          }, function (err) {
-              d.reject(err);
-          });
-          
-          return d.promise;
-        };
+        api._request = angularRequest($http, $q);
+        api.promise = angularPromise($q);
         
         return api;
       }
     };
   });
-},{"../../index.js":1}],3:[function(require,module,exports){
+},{"../../index.js":1,"./angular.promise":3,"./angular.request":4}],3:[function(require,module,exports){
+module.exports = function ($q) {
+  return function (callback) {
+    var d = $q.defer();
+    
+    callback(function (data) {
+        d.resolve(data);
+    }, function (err) {
+        d.reject(err);
+    });
+    
+    return d.promise;
+  };
+};
+},{}],4:[function(require,module,exports){
+module.exports = function ($http, $q) {
+  return function (requestOptions) {
+    var d = $q.defer();
+    
+    if (requestOptions.form) requestOptions.data = requestOptions.form;
+    if (requestOptions.type) requestOptions.responseType = requestOptions.type;
+    
+    $http(requestOptions).success(function (res) {
+      d.resolve(res);
+    }).error(function (err) {
+      d.reject(err);
+    });
+    
+    return d.promise;
+};
+};
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var extend = require('extend');
@@ -254,9 +269,9 @@ Resource._create = function (name, extensions, options) {
 };
 
 module.exports = Resource;
-},{"extend":7,"path":6,"qmap":8,"slasher":14}],4:[function(require,module,exports){
+},{"extend":9,"path":8,"qmap":10,"slasher":16}],6:[function(require,module,exports){
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -311,7 +326,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -539,7 +554,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require("/Users/scott/www/modules/rapper/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
-},{"/Users/scott/www/modules/rapper/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":5}],7:[function(require,module,exports){
+},{"/Users/scott/www/modules/rapper/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":7}],9:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 
@@ -619,7 +634,7 @@ module.exports = function extend() {
 	return target;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var flatten = require('flatten');
 var drainer = require('drainer');
 var isArguments = require('lodash.isarguments');
@@ -675,7 +690,7 @@ Qmap.prototype.drain = function () {
 };
 
 module.exports = Qmap;
-},{"drainer":9,"flatten":12,"lodash.isarguments":13}],9:[function(require,module,exports){
+},{"drainer":11,"flatten":14,"lodash.isarguments":15}],11:[function(require,module,exports){
 var asArray = require('as-array');
 
 var drainer = function(queue) {
@@ -708,7 +723,7 @@ var drain = function (queue, args, callback, defaultArgs) {
 };
 
 module.exports = drainer;
-},{"as-array":10}],10:[function(require,module,exports){
+},{"as-array":12}],12:[function(require,module,exports){
 var isArgs = require('is-args');
 
 module.exports = function (data) {
@@ -719,14 +734,14 @@ module.exports = function (data) {
     ? data
     : [data];
 };
-},{"is-args":11}],11:[function(require,module,exports){
+},{"is-args":13}],13:[function(require,module,exports){
 module.exports = function (val) {
     return !!val
       && typeof val.length === 'number'
       && typeof val.callee === 'function'
     ;
 };
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -744,7 +759,7 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -786,7 +801,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var path = require('path');
 var join = path.join;
 var normalize = path.normalize;
@@ -825,4 +840,4 @@ function objectSlash (original, options) {
 
 module.exports = slasher;
 
-},{"path":6}]},{},[2])
+},{"path":8}]},{},[2])
