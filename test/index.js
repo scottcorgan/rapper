@@ -22,22 +22,20 @@ describe('Api wrapper set up', function () {
     expect(api.header('content-type')).to.equal('text/html');
   });
   
-  it('provides a promise utility', function (done) {
+  it('provides a promise utility', function () {
     var promise = api.promise(function (resolve, reject) {
       resolve('yes');
     });
     
-    promise.then(function (res) {
+    return promise.then(function (res) {
       expect(res).to.equal('yes');
-      done();
     });
   });
   
-  it('wraps a value and returns it as a promise', function (done) {
+  it('wraps a value and returns it as a promise', function () {
     var promise = api.asPromise(123);
-    promise.then(function (num) {
+    return promise.then(function (num) {
       expect(num).to.equal(123);
-      done();
     });
   });
   
@@ -60,46 +58,44 @@ describe('basic http requests', function () {
     server.stop(done);
   });
   
-  it('overrides with custom options per request', function (done) {
-    api.get('/endpoint', {
+  it('overrides with custom options per request', function () {
+    return api.get('/endpoint', {
       method: 'POST'
     }).then(function (res) {
       expect(res.method.toLowerCase()).to.equal('post');
-      done();
-    }, done);
+    });
   });
   
-  it('sends the headers with a request', function (done) {
+  it('sends the headers with a request', function () {
     api.header('authorization', 'asdf');
-    api.get('/endpoint').then(function (res) {
+    
+    return api.get('/endpoint').then(function (res) {
       expect(res.headers.authorization).to.equal('asdf');
-      done();
-    }, done);
+    });
   });
   
-  it('overrides the headers with options', function (done) {
+  it('overrides the headers with options', function () {
     api.header('authorization', 'asdf');
-    api.get('/endpoint', {
+    
+    return api.get('/endpoint', {
       headers: {
         authorization: 'qwer'
       }
     }).then(function (res) {
       expect(res.headers.authorization).to.equal('qwer');
-      done();
-    }, done);
+    });
   });
   
   describe('request types', function () {
     Rapper.httpMethods.forEach(function (method) {
-      it('makes a ' + method + ' request', function (done) {
+      it('makes a ' + method + ' request', function () {
         
         // i.e. api.get(), api.post(), etc.
         
-        api[method.toLowerCase()]('/endpoint').then(function (res) {
+        return api[method.toLowerCase()]('/endpoint').then(function (res) {
           expect(res.method.toLowerCase()).to.equal(method.toLowerCase());
           expect(res.url).to.equal('/endpoint');
-          done();
-        }, done);
+        });
       });
     });
   });
@@ -110,11 +106,11 @@ describe('basic http requests', function () {
       expect(api.xhrs.withCredentials).to.equal(true);
     });
     
-    it('uses the custom xhr fields in https requests', function (done) {
+    it('uses the custom xhr fields in https requests', function () {
       api.xhr('method', 'POST');
-      api.get('/test').then(function (res) {
+      
+      return api.get('/test').then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
-        done();
       });
     });
   });
@@ -179,44 +175,44 @@ describe('defining a resource', function () {
     expect(nested1.xhrs).to.eql(nested2.xhrs);
   });
   
-  it('performs a http request to the resource', function (done) {
+  it('performs a http request to the resource', function () {
     var resource = api.resource('resource');
-    resource.get().then(function (res) {
+    
+    return resource.get().then(function (res) {
       expect(res.method.toLowerCase()).to.equal('get');
       expect(res.url).to.equal('/resource');
-      done();
     });
   });
   
-  it('posts a new element on the resource', function (done) {
+  it('posts a new element on the resource', function () {
     var resource = api.resource('resource');
-    resource.post({
+    
+    return resource.post({
       name: 'name'
     }).then(function (res) {
       expect(res.method.toLowerCase()).to.equal('post');
       expect(res.body.name).to.equal('name');
-      done();
     });
   });
   
   describe('aliases', function () {
-    it('aliases get with list', function (done) {
+    it('aliases get with list', function () {
       var resource = api.resource('resource');
-      resource.list().then(function (res) {
+      
+      return resource.list().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('get');
         expect(res.url).to.equal('/resource');
-        done();
       });
     });
     
-    it('aliases post with a create', function (done) {
+    it('aliases post with a create', function () {
       var resource = api.resource('resource');
-      resource.create({
+      
+      return resource.create({
         name: 'name'
       }).then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
         expect(res.body.name).to.equal('name');
-        done();
       });
     });
   });

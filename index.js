@@ -70,9 +70,19 @@ Rapper.prototype._http = function (url, method, options) {
 
 Rapper.prototype._request = function (requestOptions) {
   return this.promise(function (resolve, reject) {
-    request(requestOptions, function (err, response, body) {
-      if (err || response.statusCode >= 300 || response.status >= 300) return reject(err || response);
-      resolve(JSON.parse(body));
+    request(requestOptions, function (err, response) {
+      // Some error happened
+      if (err) return reject(err);
+      
+      // Parse body
+      if (response.body === '') response.body = {};
+      if (typeof response.body === 'string') response.body = JSON.parse(response.body);
+      
+      // Oops, not a good resposne
+      if (response.statusCode >= 400) return reject(response);
+      
+      // All good
+      resolve(response);
     });
   });
 };

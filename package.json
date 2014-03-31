@@ -1,6 +1,6 @@
 {
   "name": "rapper",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "index.js",
   "scripts": {

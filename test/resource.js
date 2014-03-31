@@ -62,36 +62,36 @@ describe('defining resources', function() {
       expect(resource.xhr('withCredentials')).to.equal(true);
     });
     
-    it('uses the custom xhr fields in GET requests', function (done) {
+    it('uses the custom xhr fields in GET requests', function () {
       resource.xhr('method', 'POST');
-      resource.get().then(function (res) {
+      
+      return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
-        done();
       });
     });
     
-    it('uses the custom xhr fields in POST requests', function (done) {
+    it('uses the custom xhr fields in POST requests', function () {
       resource.xhr('method', 'GET');
-      resource.post({}).then(function (res) {
+      
+      return resource.post({}).then(function (res) {
         expect(res.method.toLowerCase()).to.equal('get');
-        done();
       });
     });
     
-    it('uses the global custom xhr fields in resource request', function (done) {
+    it('uses the global custom xhr fields in resource request', function () {
       api.xhr('method', 'POST');
-      resource.get().then(function (res) {
+      
+      return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
-        done();
       });
     });
     
-    it('overrides the global custom xhr fields with resource specific custom xhr fields', function (done) {
+    it('overrides the global custom xhr fields with resource specific custom xhr fields', function () {
       api.xhr('method', 'POST');
       resource.xhr('method', 'PUT');
-      resource.get().then(function (res) {
+      
+      return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('put');
-        done();
       });
     });
   });
@@ -108,50 +108,45 @@ describe('defining resources', function() {
       expect(single.url()).to.equal('/resource/123');
     });
     
-    it('gets the single item from the resource', function (done) {
-      resource.one(123).get().then(function (res) {
+    it('gets the single item from the resource', function () {
+      return resource.one(123).get().then(function (res) {
         expect(res.url).to.equal('/resource/123');
         expect(res.method.toLowerCase()).to.equal('get');
-        done();
       });
     });
     
-    it('updates a single item', function (done) {
-      resource.one(123).put({
+    it('updates a single item', function () {
+      return resource.one(123).put({
         name: 'name'
       }).then(function (res) {
         expect(res.url).to.equal('/resource/123');
         expect(res.method.toLowerCase()).to.equal('put');
         expect(res.body.name).to.equal('name');
-        done();
       });
     });
     
-    it('removes a single item', function (done) {
-      resource.one(123).del().then(function (res) {
+    it('removes a single item', function () {
+      return resource.one(123).del().then(function (res) {
         expect(res.url).to.equal('/resource/123');
         expect(res.method.toLowerCase()).to.equal('delete');
-        done();
       });
     });
     
     describe('aliases', function () {
-      it('put with update', function (done) {
-        resource.one(123).update({
+      it('put with update', function () {
+        return resource.one(123).update({
           name: 'name'
         }).then(function (res) {
           expect(res.url).to.equal('/resource/123');
           expect(res.method.toLowerCase()).to.equal('put');
           expect(res.body.name).to.equal('name');
-          done();
         });
       });
       
-      it('del with remove', function (done) {
-        resource.one(123).remove().then(function (res) {
+      it('del with remove', function () {
+        return resource.one(123).remove().then(function (res) {
           expect(res.url).to.equal('/resource/123');
           expect(res.method.toLowerCase()).to.equal('delete');
-          done();
         });
       });
     });
@@ -182,51 +177,51 @@ describe('defining resources', function() {
         expect(single.xhr('withCredentials')).to.equal(true);
       });
       
-      it('uses the custom xhr fields in GET requests', function (done) {
+      it('uses the custom xhr fields in GET requests', function () {
         single.xhr('method', 'POST');
-        single.get().then(function (res) {
+        
+        return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('post');
-          done();
         });
       });
       
-      it('uses the custom xhr fields in PUT requests', function (done) {
+      it('uses the custom xhr fields in PUT requests', function () {
         single.xhr('method', 'GET');
-        single.put({}).then(function (res) {
+        
+        return single.put({}).then(function (res) {
           expect(res.method.toLowerCase()).to.equal('get');
-          done();
         });
       });
       
-      it('uses the custom xhr fields in DELETE requests', function (done) {
+      it('uses the custom xhr fields in DELETE requests', function () {
         single.xhr('method', 'GET');
-        single.del().then(function (res) {
+        
+        return single.del().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('get');
-          done();
         });
       });
       
-      it('uses the global custom xhr fields in resource request', function (done) {
+      it('uses the global custom xhr fields in resource request', function () {
         api.xhr('method', 'POST');
-        single.get().then(function (res) {
+        
+        return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('post');
-          done();
         });
       });
       
-      it('overrides the global custom xhr fields with resource specific custom xhr fields', function (done) {
+      it('overrides the global custom xhr fields with resource specific custom xhr fields', function () {
         api.xhr('method', 'POST');
         single.xhr('method', 'PUT');
-        single.get().then(function (res) {
+        
+        return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('put');
-          done();
         });
       });
     });
   });
 
   describe('before and after hooks', function () {
-    it('runs a queue of functions before it makes the resource request', function (done) {
+    it('runs a queue of functions before it makes the resource request', function () {
       var called1 = false;
       var called2 = false;
       var url;
@@ -241,15 +236,14 @@ describe('defining resources', function() {
         done();
       });
       
-      resource.get().then(function () {
+      return resource.get().then(function () {
         expect(url).to.equal(resource.url());
         expect(called1).to.equal(true);
         expect(called2).to.equal(true);
-        done();
       });
     });
     
-    it('sends an error to the callback if the before queue gives an error', function (done) {
+    it('sends an error to the callback if the before queue gives an error', function () {
       var called = false;
       var resource = api.resource('resource');
       resource.before(function (done) {
@@ -259,10 +253,9 @@ describe('defining resources', function() {
         done();
       });
       
-      resource.get().then(function () {}, function (err) {
+      return resource.get().then(function () {}, function (err) {
         expect(err).to.equal('error');
         expect(called).to.equal(false);
-        done();
       });
     });
   });
@@ -283,16 +276,15 @@ describe('nested resources', function () {
     server.stop(done);
   });
   
-  it('creates a nested resource 2 deep', function (done) {
+  it('creates a nested resource 2 deep', function () {
     var level1 = resource.one(123);
     var level2 = level1.resource('resource2');
     
     expect(level2.url()).to.equal('/resource/123/resource2');
     
-    level2.list().then(function (res) {
+    return level2.list().then(function (res) {
       expect(res.url).to.equal('/resource/123/resource2');
       expect(res.method.toLowerCase()).to.equal('get');
-      done();
     });
   });
   
@@ -304,18 +296,17 @@ describe('nested resources', function () {
     expect(level3.url()).to.equal('/resource/123/resource2/456');
   });
   
-  it('creats nested resources one after another', function (done) {
+  it('creats nested resources one after another', function () {
     var level1 = resource.resource('resource2');
     
     expect(level1.url()).to.equal('/resource/resource2');
     
-    level1.create({
+    return level1.create({
       name: 'name'
     }).then(function (res) {
       expect(res.url).to.equal('/resource/resource2');
       expect(res.method.toLowerCase()).to.equal('post');
       expect(res.body.name).to.equal('name');
-      done();
     });
   });
 });
