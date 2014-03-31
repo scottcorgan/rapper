@@ -71,6 +71,7 @@ Rapper.prototype._http = function (url, method, options) {
 Rapper.prototype._request = function (requestOptions) {
   return this.promise(function (resolve, reject) {
     request(requestOptions, function (err, response) {
+      
       // Some error happened
       if (err) return reject(err);
       
@@ -80,7 +81,7 @@ Rapper.prototype._request = function (requestOptions) {
         try{
           response.body = JSON.parse(response.body);
         }
-        catch (e) {};
+        catch (e) {}
       }
       
       // Oops, not a good resposne
