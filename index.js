@@ -76,7 +76,12 @@ Rapper.prototype._request = function (requestOptions) {
       
       // Parse body
       if (response.body === '') response.body = {};
-      if (typeof response.body === 'string') response.body = JSON.parse(response.body);
+      if (typeof response.body === 'string') {
+        try{
+          response.body = JSON.parse(response.body);
+        }
+        catch (e) {};
+      }
       
       // Oops, not a good resposne
       if (response.statusCode >= 400) return reject(response);
