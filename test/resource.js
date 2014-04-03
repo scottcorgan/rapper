@@ -309,4 +309,11 @@ describe('nested resources', function () {
       expect(res.body.name).to.equal('name');
     });
   });
+  
+  it('aliases a method with another name', function () {
+    resource.alias('one', 'id');
+    var withId = resource.id(123);
+    
+    expect(withId.url()).to.equal('/resource/123');
+  });
 });
