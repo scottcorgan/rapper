@@ -102,12 +102,12 @@ describe('basic http requests', function () {
   
   describe('global custom xhr fields', function () {
     it('sets and uses custom xhr fields', function () {
-      api.xhr('withCredentials', true);
-      expect(api.xhrs.withCredentials).to.equal(true);
+      api.xhrOption('withCredentials', true);
+      expect(api.xhrOption('withCredentials')).to.equal(true);
     });
     
     it('uses the custom xhr fields in https requests', function () {
-      api.xhr('method', 'POST');
+      api.xhrOption('method', 'POST');
       
       return api.get('/test').then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
@@ -155,24 +155,24 @@ describe('defining a resource', function () {
   it('returns the current resource if it is already defined', function () {
     var r1 = api.resource('resource');
     var r2 = api.resource('resource');
-    r1.xhr('method', 'POST');
-    expect(r1.xhrs).to.eql(r2.xhrs);
+    r1.xhrOption('method', 'POST');
+    expect(r1.xhrOptions).to.eql(r2.xhrOptions);
   });
   
   it('returns the current nested single resource if it is already defined', function () {
     var r1 = api.resource('resource');
     var nested1 = r1.one(123);
     var nested2 = r1.one(123);
-    nested1.xhr('method', 'POST');
-    expect(nested1.xhrs).to.eql(nested2.xhrs);
+    nested1.xhrOption('method', 'POST');
+    expect(nested1.xhrOptions).to.eql(nested2.xhrOptions);
   });
   
   it('returns the current nested single resource if it is already defined', function () {
     var r1 = api.resource('resource');
     var nested1 = r1.resource('resource1');
     var nested2 = r1.resource('resource1');
-    nested1.xhr('method', 'POST');
-    expect(nested1.xhrs).to.eql(nested2.xhrs);
+    nested1.xhrOption('method', 'POST');
+    expect(nested1.xhrOptions).to.eql(nested2.xhrOptions);
   });
   
   it('performs a http request to the resource', function () {

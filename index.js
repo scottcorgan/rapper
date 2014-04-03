@@ -9,7 +9,7 @@ var slasher = require('slasher');
 var Rapper = function (host) {
   this.attributes = {};
   this.headers = {};
-  this.xhrs = {};
+  this.xhrOptions = {};
   this.resources = {};
   
   if (host) this.attributes.host = host;
@@ -38,10 +38,10 @@ Rapper.prototype.header = function (key, value) {
   return this;
 };
 
-Rapper.prototype.xhr = function (key, value) {
-  if (!value) return this.xhrs[key];
+Rapper.prototype.xhrOption = function (key, value) {
+  if (!value) return this.xhrOptions[key];
   
-  this.xhrs[key] = value;
+  this.xhrOptions[key] = value;
   return this;
 };
 
@@ -56,7 +56,7 @@ Rapper.prototype._http = function (url, method, options) {
   
   extend(requestOptions, {
     headers: this.headers
-  }, this.xhrs, options);
+  }, this.xhrOptions, options);
   
   if (!resource) return this._makeHttpRequest(requestOptions);
   

@@ -58,12 +58,12 @@ describe('defining resources', function() {
     });
     
     it('sets and uses custom xhr fields', function () {
-      resource.xhr('withCredentials', true);
-      expect(resource.xhr('withCredentials')).to.equal(true);
+      resource.xhrOption('withCredentials', true);
+      expect(resource.xhrOption('withCredentials')).to.equal(true);
     });
     
     it('uses the custom xhr fields in GET requests', function () {
-      resource.xhr('method', 'POST');
+      resource.xhrOption('method', 'POST');
       
       return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
@@ -71,7 +71,7 @@ describe('defining resources', function() {
     });
     
     it('uses the custom xhr fields in POST requests', function () {
-      resource.xhr('method', 'GET');
+      resource.xhrOption('method', 'GET');
       
       return resource.post({}).then(function (res) {
         expect(res.method.toLowerCase()).to.equal('get');
@@ -79,7 +79,7 @@ describe('defining resources', function() {
     });
     
     it('uses the global custom xhr fields in resource request', function () {
-      api.xhr('method', 'POST');
+      api.xhrOption('method', 'POST');
       
       return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('post');
@@ -87,8 +87,8 @@ describe('defining resources', function() {
     });
     
     it('overrides the global custom xhr fields with resource specific custom xhr fields', function () {
-      api.xhr('method', 'POST');
-      resource.xhr('method', 'PUT');
+      api.xhrOption('method', 'POST');
+      resource.xhrOption('method', 'PUT');
       
       return resource.get().then(function (res) {
         expect(res.method.toLowerCase()).to.equal('put');
@@ -173,12 +173,12 @@ describe('defining resources', function() {
       });
       
       it('sets and uses custom xhr fields', function () {
-        single.xhr('withCredentials', true);
-        expect(single.xhr('withCredentials')).to.equal(true);
+        single.xhrOption('withCredentials', true);
+        expect(single.xhrOption('withCredentials')).to.equal(true);
       });
       
       it('uses the custom xhr fields in GET requests', function () {
-        single.xhr('method', 'POST');
+        single.xhrOption('method', 'POST');
         
         return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('post');
@@ -186,7 +186,7 @@ describe('defining resources', function() {
       });
       
       it('uses the custom xhr fields in PUT requests', function () {
-        single.xhr('method', 'GET');
+        single.xhrOption('method', 'GET');
         
         return single.put({}).then(function (res) {
           expect(res.method.toLowerCase()).to.equal('get');
@@ -194,7 +194,7 @@ describe('defining resources', function() {
       });
       
       it('uses the custom xhr fields in DELETE requests', function () {
-        single.xhr('method', 'GET');
+        single.xhrOption('method', 'GET');
         
         return single.del().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('get');
@@ -202,7 +202,7 @@ describe('defining resources', function() {
       });
       
       it('uses the global custom xhr fields in resource request', function () {
-        api.xhr('method', 'POST');
+        api.xhrOption('method', 'POST');
         
         return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('post');
@@ -210,8 +210,8 @@ describe('defining resources', function() {
       });
       
       it('overrides the global custom xhr fields with resource specific custom xhr fields', function () {
-        api.xhr('method', 'POST');
-        single.xhr('method', 'PUT');
+        api.xhrOption('method', 'POST');
+        single.xhrOption('method', 'PUT');
         
         return single.get().then(function (res) {
           expect(res.method.toLowerCase()).to.equal('put');
@@ -313,7 +313,6 @@ describe('nested resources', function () {
   it('aliases a method with another name', function () {
     resource.alias('one', 'id');
     var withId = resource.id(123);
-    
     expect(withId.url()).to.equal('/resource/123');
   });
 });
