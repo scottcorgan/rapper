@@ -10,7 +10,7 @@ var slasher = _dereq_('slasher');
 var Rapper = function (host) {
   this.attributes = {};
   this.headers = {};
-  this.xhrs = {};
+  this.xhrOptions = {};
   this.resources = {};
   
   if (host) this.attributes.host = host;
@@ -39,10 +39,10 @@ Rapper.prototype.header = function (key, value) {
   return this;
 };
 
-Rapper.prototype.xhr = function (key, value) {
-  if (!value) return this.xhrs[key];
+Rapper.prototype.xhrOption = function (key, value) {
+  if (!value) return this.xhrOptions[key];
   
-  this.xhrs[key] = value;
+  this.xhrOptions[key] = value;
   return this;
 };
 
@@ -57,23 +57,39 @@ Rapper.prototype._http = function (url, method, options) {
   
   extend(requestOptions, {
     headers: this.headers
-  }, this.xhrs, options);
+  }, this.xhrOptions, options);
   
-  if (!resource) return this._request(requestOptions);
+  if (!resource) return this._makeHttpRequest(requestOptions);
   
   return this.promise(function (resolve, reject) {
     resource.beforeQueue.drain(function (err) {
       if (err) return reject(err);
-      self._request(requestOptions).then(resolve, reject);
+      self._makeHttpRequest(requestOptions).then(resolve, reject);
     });
   });
 };
 
-Rapper.prototype._request = function (requestOptions) {
+Rapper.prototype._makeHttpRequest = function (requestOptions) {
   return this.promise(function (resolve, reject) {
-    request(requestOptions, function (err, response, body) {
-      if (err || response.statusCode >= 300 || response.status >= 300) return reject(err || response);
-      resolve(JSON.parse(body));
+    request(requestOptions, function (err, response) {
+      
+      // Some error happened
+      if (err) return reject(err);
+      
+      // Parse body
+      if (response.body === '') response.body = {};
+      if (typeof response.body === 'string') {
+        try{
+          response.body = JSON.parse(response.body);
+        }
+        catch (e) {}
+      }
+      
+      // Oops, not a good resposne
+      if (response.statusCode >= 400) return reject(response);
+      
+      // All good
+      resolve(response);
     });
   });
 };
@@ -81,8 +97,8 @@ Rapper.prototype._request = function (requestOptions) {
 // Add helper methods
 Rapper.httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 Rapper.httpMethods.forEach(function (method) {
-  Rapper.prototype[method.toLowerCase()] = function (url, options, resource) {
-    return this._http(url, method, options, resource);
+  Rapper.prototype[method.toLowerCase()] = function (url, options) {
+    return this._http(url, method, options);
   };
 });
 
@@ -112,7 +128,7 @@ var path = _dereq_('path');
 var Qmap = _dereq_('qmap');
 
 var Resource = function (options, extensions) {
-  this.xhrs = {};
+  this.xhrOptions = {};
   this.beforeQueue = new Qmap(this);
   extend(this, options, extensions);
 };
@@ -137,10 +153,10 @@ Resource.prototype.resource = function (name, extensions) {
   });
 };
 
-Resource.prototype.xhr = function (key, value) {
-  if (!value) return this.xhrs[key];
+Resource.prototype.xhrOption = function (key, value) {
+  if (!value) return this.xhrOptions[key];
   
-  this.xhrs[key] = value;
+  this.xhrOptions[key] = value;
   return this;
 };
 
@@ -148,14 +164,19 @@ Resource.prototype.before = function () {
   this.beforeQueue.push(arguments);
 };
 
+Resource.prototype.alias = function (originalMethod, aliasedMethod) {
+  this[aliasedMethod] = this[originalMethod];
+  return this;
+};
+
 
 // Mixins
 Resource.many = {
   get: function () {
-    return this.api.get(this.url(), this.xhrs);
+    return this.api.get(this.url(), this.xhrOptions);
   },
   post: function (body) {
-    return this.api.post(this.url(), extend(this.xhrs, {
+    return this.api.post(this.url(), extend(this.xhrOptions, {
       form: body
     }));
   },
@@ -172,12 +193,12 @@ Resource.many = {
 Resource.one = {
   get: Resource.many.get,
   put: function (body) {
-    return this.api.put(this.url(), extend(this.xhrs, {
+    return this.api.put(this.url(), extend(this.xhrOptions, {
       form: body
     }));
   },
   del: function () {
-    return this.api.delete(this.url(), this.xhrs);
+    return this.api.delete(this.url(), this.xhrOptions);
   },
   
   // Aliases
