@@ -151,7 +151,7 @@ angular.module('rapper', [])
     var client;
     
     return {
-      _host: {},
+      _host: null,
       
       configure: function (host) {
         this._host = host;

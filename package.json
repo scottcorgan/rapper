@@ -4,11 +4,17 @@
   "description": "Construct wrappers around api RESTful endpoints (Browser/Angular/Node)",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && node_modules/.bin/mocha ./test",
+    
+    "test": "npm run lint && npm run build && npm run test-server && npm run test-angular",
+    "test-angular": "echo '\nTesting Angular:\n\n' && ./node_modules/karma/bin/karma start karma.conf.js",
+    "test-server": "echo '\nTesting Server: \n' && node_modules/.bin/mocha ./test/server",
+    
     "lint": "node_modules/.bin/jshint lib/ index.js --verbose --show-non-errors",
+    
     "build": "npm run bundle-angular && npm run bundle-standalone",
     "bundle-angular": "build/angular.js",
     "bundle-standalone": "build/standalone.js"
+    
   },
   "repository": {
     "type": "git",
@@ -40,6 +46,10 @@
     "browserify": "3.32.x",
     "minify": "0.2.x",
     "ngmin": "0.4.x",
-    "jshint": "2.4.x"
+    "jshint": "2.4.x",
+    "karma": "^0.12.3",
+    "karma-mocha": "^0.1.3",
+    "karma-expect": "^1.1.0",
+    "karma-phantomjs-launcher": "^0.1.3"
   }
 }

@@ -1,5 +1,5 @@
-var Rapper = require('../index.js');
-var Resource = require('../lib/resource.js');
+var Rapper = require('../../index.js');
+var Resource = require('../../lib/resource.js');
 var Mocksy = require('mocksy');
 var expect = require('expect.js');
 var PORT = 9999;

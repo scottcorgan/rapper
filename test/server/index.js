@@ -1,4 +1,4 @@
-var Rapper = require('../index.js');
+var Rapper = require('../../index.js');
 var Mocksy = require('mocksy');
 var expect = require('expect.js');
 var PORT = 9999;
