@@ -29,15 +29,8 @@ Rapper.prototype.host = function (host) {
 };
 
 Rapper.prototype._buildUrl = function (resource, withHost) {
-  // This should never happen, but just in case
-  if (!resource || !resource.name) return;
-  
-  var url = paramJoin(slasher(resource.name), resource.params());
-  
-  // With base url
-  if (withHost) return this.attributes.host + url;
-  
-  return url;
+  var url = (typeof resource === 'string') ? resource : paramJoin(slasher(resource.name), resource.params());
+  return (withHost) ? this.host() + url : url;
 };
 
 Rapper.prototype.header = function (key, value) {
@@ -57,8 +50,9 @@ Rapper.prototype.xhrOption = function (key, value) {
 Rapper.prototype._http = function (url, method, options) {
   var self = this;
   var resource = this.resources[url];
+  
   var requestOptions = {
-    url: this._buildUrl(resource, true),
+    url: this._buildUrl(url, true),
     method: method,
     type: 'json'
   };
@@ -682,15 +676,15 @@ function createXHR(options, callback) {
     options = options || {}
     callback = once(callback)
 
-    var xhr
+    var xhr = options.xhr || null
 
-    if (options.cors) {
+    if (!xhr && options.cors) {
         xhr = new XDR()
-    } else {
+    } else if (!xhr) {
         xhr = new XHR()
     }
 
-    var uri = xhr.url = options.uri
+    var uri = xhr.url = options.uri || options.url;
     var method = xhr.method = options.method || "GET"
     var body = options.body || options.data
     var headers = xhr.headers = options.headers || {}
@@ -725,6 +719,10 @@ function createXHR(options, callback) {
         Object.keys(headers).forEach(function (key) {
             xhr.setRequestHeader(key, headers[key])
         })
+    }
+
+    if ("responseType" in options) {
+        xhr.responseType = options.responseType
     }
 
     xhr.send(body)

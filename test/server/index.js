@@ -86,6 +86,15 @@ describe('basic http requests', function () {
     });
   });
   
+  it('accepts a resource object or a string when building the url', function () {
+    var resource = api.resource('resource');
+    var stringUrl = api._buildUrl('/test');
+    var resourceUrl = api._buildUrl(resource);
+    
+    expect(stringUrl).to.equal('/test');
+    expect(resourceUrl).to.equal('/resource');
+  });
+  
   describe('request types', function () {
     Rapper.httpMethods.forEach(function (method) {
       it('makes a ' + method + ' request', function () {
