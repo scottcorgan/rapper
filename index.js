@@ -5,6 +5,7 @@ var Promise = require('promise');
 var extend = require('extend');
 var Resource = require('./lib/resource');
 var slasher = require('slasher');
+var qs = require('qs');
 
 var Rapper = function (host) {
   this.attributes = {};
@@ -26,9 +27,16 @@ Rapper.prototype.host = function (host) {
   return this;
 };
 
-Rapper.prototype._buildUrl = function (url, withHost) {
-  if (withHost) return this.attributes.host + slasher(url);
-  return slasher(url);
+Rapper.prototype._buildUrl = function (resource, withHost) {
+  // This should never happen, but just in case
+  if (!resource || !resource.name) return;
+  
+  var url = paramJoin(slasher(resource.name), resource.params());
+  
+  // With base url
+  if (withHost) return this.attributes.host + url;
+  
+  return url;
 };
 
 Rapper.prototype.header = function (key, value) {
@@ -49,7 +57,7 @@ Rapper.prototype._http = function (url, method, options) {
   var self = this;
   var resource = this.resources[url];
   var requestOptions = {
-    url: this._buildUrl(url, true),
+    url: this._buildUrl(resource, true),
     method: method,
     type: 'json'
   };
@@ -118,3 +126,13 @@ Rapper.prototype.asPromise = function (value) {
 };
 
 module.exports = Rapper;
+
+// TODO: break this out into own module
+function paramJoin (url, params) {
+  if (params instanceof Object) params = qs.stringify(params);
+  
+  if (url.indexOf('?') > -1 && params !== '') url += '&' + params;
+  if (url.indexOf('?') < 0 && params !== '') url += '?' + params;
+  
+  return url;
+}

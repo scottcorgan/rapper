@@ -30,7 +30,8 @@
     "promise": "4.0.x",
     "extend": "1.2.x",
     "slasher": "0.1.x",
-    "qmap": "0.2.x"
+    "qmap": "0.2.x",
+    "qs": "^0.6.6"
   },
   "devDependencies": {
     "mocksy": "0.1.x",

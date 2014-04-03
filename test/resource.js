@@ -315,4 +315,40 @@ describe('nested resources', function () {
     var withId = resource.id(123);
     expect(withId.url()).to.equal('/resource/123');
   });
+  
+  
+  describe('params', function () {
+    
+    it('gets the params', function () {
+      resource.param('key1', 'value1');
+      expect(resource.params()).to.eql({key1: 'value1'});
+    });
+    
+    it('gets a single param value', function () {
+      resource.param('key1', 'value1');
+      expect(resource.param('key1')).to.equal('value1');
+    });
+    
+    it('sets params with an object', function () {
+      resource.param('key1', 'value1');
+      resource.param('key2', 'value2');
+      resource.params({
+        key3: 'value3'
+      });
+      
+      expect(resource.params()).to.eql({
+        key1: 'value1',
+        key2: 'value2',
+        key3: 'value3'
+      });
+    });
+    
+    it('adds parameters to the resource url', function () {
+      resource.param('key1', 'value1');
+      resource.param('key2', 'value2');
+      expect(resource.url()).to.equal('/resource?key1=value1&key2=value2');
+    });
+    
+  });
+  
 });

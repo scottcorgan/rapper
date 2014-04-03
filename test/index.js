@@ -216,4 +216,5 @@ describe('defining a resource', function () {
       });
     });
   });
+  
 });
