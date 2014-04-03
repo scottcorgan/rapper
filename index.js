@@ -58,17 +58,17 @@ Rapper.prototype._http = function (url, method, options) {
     headers: this.headers
   }, this.xhrs, options);
   
-  if (!resource) return this._request(requestOptions);
+  if (!resource) return this._makeHttpRequest(requestOptions);
   
   return this.promise(function (resolve, reject) {
     resource.beforeQueue.drain(function (err) {
       if (err) return reject(err);
-      self._request(requestOptions).then(resolve, reject);
+      self._makeHttpRequest(requestOptions).then(resolve, reject);
     });
   });
 };
 
-Rapper.prototype._request = function (requestOptions) {
+Rapper.prototype._makeHttpRequest = function (requestOptions) {
   return this.promise(function (resolve, reject) {
     request(requestOptions, function (err, response) {
       
@@ -96,8 +96,8 @@ Rapper.prototype._request = function (requestOptions) {
 // Add helper methods
 Rapper.httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 Rapper.httpMethods.forEach(function (method) {
-  Rapper.prototype[method.toLowerCase()] = function (url, options, resource) {
-    return this._http(url, method, options, resource);
+  Rapper.prototype[method.toLowerCase()] = function (url, options) {
+    return this._http(url, method, options);
   };
 });
 
