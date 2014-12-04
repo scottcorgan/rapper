@@ -37,7 +37,7 @@
     "extend": "1.2.x",
     "slasher": "0.1.x",
     "qmap": "0.2.x",
-    "qs": "^0.6.6"
+    "qs": "^1.2.1"
   },
   "devDependencies": {
     "mocksy": "0.1.x",
